@@ -18,6 +18,9 @@ SUMOVERREPS = 1
 p = lhapdf.mkPDF("CT10nlo", 0)
 p = lhapdf.mkPDF("CT10nlo/0")
 
+alpha_S = lhapdf.mkAlphaS("CT10nlo")
+
+
 #Need to test the PDF set does as expected.
 f_G = lambda x: p.xfxQ2(21, x, s)
 
@@ -29,7 +32,7 @@ sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 /
 
 
 #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
-partonic = lambda x, y: (f_G(x) * f_G(y) * sigma_hat(x*y*s) / (x*y)) * np.pi * p.AlphaS(s)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
+partonic = lambda x, y: (f_G(x) * f_G(y) * sigma_hat(x*y*s) / (x*y)) * np.pi * alpha_S.alphaQs(s)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
 hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])
 
 print(hadronic)
