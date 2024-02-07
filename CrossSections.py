@@ -1,6 +1,7 @@
 import lhapdf
 import scipy
 import numpy as np
+scipy import scipy.integrate
 
 #Pre-calculation variables:
 s = 1000
