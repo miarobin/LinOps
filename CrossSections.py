@@ -3,7 +3,7 @@ import numpy as np
 from scipy import integrate
 
 #Pre-calculation variables:
-s_max = 1.4e4 #GeV
+s_max = 1e4**2 #GeV
 M = 100 #GeV
 g = 1
 scale = s_max
