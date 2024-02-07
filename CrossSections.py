@@ -1,7 +1,7 @@
 import lhapdf
 import scipy
 import numpy as np
-scipy import scipy.integrate
+from scipy import integrate
 
 #Pre-calculation variables:
 s = 1000
@@ -31,7 +31,7 @@ sigma_hat = - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.s
 
 #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)
 partonic = lambda x, y: f_G(x) * f_G(y) * sigma_hat(x*y*s) / 8
-hadronic, err = scipy.integrate.nquad(partonic, [[0, np.inf],[0, np.inf]])
+hadronic, err = integrate.nquad(partonic, [[0, np.inf],[0, np.inf]])
 
 print(hadronic)
 print(err)
