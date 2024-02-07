@@ -4,7 +4,7 @@ from scipy import integrate
 
 #Pre-calculation variables:
 s = 1000
-M = 800
+M = 100
 g = 1
 scale = s
 
