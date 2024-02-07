@@ -3,10 +3,10 @@ import numpy as np
 from scipy import integrate
 
 #Pre-calculation variables:
-s = 1000
-M = 100
+s_max = 1.4e4 #GeV
+M = 100 #GeV
 g = 1
-scale = s
+scale = s_max
 
 Ga = Gb = 1
 DCASIMIR = 1
@@ -22,7 +22,7 @@ alpha_S = lhapdf.mkAlphaS("CT10nlo")
 
 
 #Need to test the PDF set does as expected.
-f_G = lambda x: p.xfxQ2(21, x, s)
+f_G = lambda x: p.xfxQ2(21, x, s_max)
 
 ##Partonic cross section. 
 #Gluon fusion matrix element over s (i.e. eq 70 in draft)
@@ -32,7 +32,7 @@ sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 /
 
 
 #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
-partonic = lambda x, y: (f_G(x) * f_G(y) * sigma_hat(x*y*s) / (x*y)) * np.pi * alpha_S.alphasQ(s)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
+partonic = lambda x, y: (f_G(x) * f_G(y) * sigma_hat(x*y*s_max) / (x*y)) * np.pi * alpha_S.alphasQ(x*y*s_max)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
 hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])
 
 print(hadronic)
