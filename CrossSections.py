@@ -47,7 +47,7 @@ s_maxs = np.power(np.arange(100,1400),2)
 hadronics = []
 for s_max in s_maxs:
     #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
-    partonic = lambda x, y: (f_G(x) * f_G(y) * sigma_hat(x*y*s_max) / (x*y)) * np.pi * alpha_S.alphasQ(x*y*s_max)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
+    partonic = lambda x, y: (f_G(x,s_max) * f_G(y,s_max) * sigma_hat(x*y*s_max) / (x*y)) * np.pi * alpha_S.alphasQ(x*y*s_max)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
     hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])
     hadronic.append(hadronics)
     
