@@ -38,7 +38,7 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 test_s=np.power(np.arange(0,1000),2) #GeV
 result = []
 for ts in test_s:
-    sigma_partonic_DY = lambda x1, x2, s: 4*np.pi*alpha_S(s) * np.sum([QUARKS[q] for q in ['u','d','s']]) / (x1*x2*s)
+    sigma_partonic_DY = lambda x1, x2, s: 4*np.pi*alpha_S.alphasQ(s_max)**2 * np.sum([QUARKS[q]**2 for q in ['u','d','s']]) / (x1*x2*s)
     sigma_hadronic_DY, err = integrate.nquad(sigma_partonic_DY, [[0, 1],[0, 1]],args=[ts])
     result.append(sigma_hadronic_DY)
 plt.plot(np.power(test_s,0.5), result)
