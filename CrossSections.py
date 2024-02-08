@@ -18,6 +18,7 @@ SUMOVERREPS = 1
 p = lhapdf.mkPDF("CT10nlo", 0)
 p = lhapdf.mkPDF("CT10nlo/0")
 
+#This probably needs mofidying for new particles.
 alpha_S = lhapdf.mkAlphaS("CT10nlo")
 
 
@@ -28,7 +29,7 @@ f_G = lambda x: p.xfxQ2(21, x, s_max)
 #Gluon fusion matrix element over s (i.e. eq 70 in draft)
 MatrixElement_s = - Ga * Gb * SUMOVERREPS
 #Partonic cross section
-sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.sqrt(1 - 4*M**2 / s) * DCASIMIR * g**4 / 4 if s>4*M*2 else 0
+sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.sqrt(1 - 4*M**2 / s) * DCASIMIR * g**4 / 4 if s>=4*M**2 else 0
 
 
 #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
