@@ -15,7 +15,7 @@ TO DO:
 #Pre-calculation variables:
 M = 250 #GeV
 g = 1
-
+QUARKS = {'u':+2/3, 'd':-1/3, 's':+2/3}
 
 Ga = Gb = 1
 DCASIMIR = 1
@@ -35,28 +35,36 @@ alpha_S = lhapdf.mkAlphaS("CT10nlo")
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 ##Test of SM Drell-Yan.
-test_s=100 #GeV
-
-'''
-QUARKS = {'u':[+2/3], 'd':[-1/3], 's':[+2/3]}
-sigma_hat_DY = lambda s: 4*np.pi*alpha_S(test_s) * np.sum(QUARKS[q] for q in ['u','d','s'])
-'''
-
+test_s=np.power(np.arange(0,1000),2) #GeV
+result = []
+for ts in test_s:
+    sigma_partonic_DY = lambda x1, x2, s: 4*np.pi*alpha_S(s) * np.sum([QUARKS[q] for q in ['u','d','s']]) / (x1*x2*s)
+    sigma_hadronic_DY, err = integrate.nquad(sigma_partonic_DY, [[0, 1],[0, 1]],args=[ts])
+    result.append(sigma_hadronic_DY)
+plt.plot(np.power(test_s,0.5), result)
+plt.xlabel("Centre of Mass Energy")
+plt.ylabel("Cross Section Drell Yan")
+plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
 
 ##Partonic cross section. 
 #Gluon fusion matrix element over s (i.e. eq 70 in draft)
 MatrixElement_s = - SUMOVERREPS
 #Partonic cross section
-sigma_hat = lambda s: - (MatrixElement_s / s**2) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.sqrt(1 - 4*M**2 / s) * DCASIMIR * g**4 / 4 if s>=4*M**2 else 0
+F_fermion = lambda s: 2 * np.sqrt(1-4*M**2/s) * (1+2*M**2/s) if s>=4*M**2 else 0
+F_scalar = lambda s: (1-4*M**2)**(3/2) if s>=4*M**2 else 0
 
 
 #Run over s_max:
-s_maxs = np.power(np.arange(100,1400),2)
+s_maxs = np.power(np.arange(100,3000),2)
 hadronics = []
 for s_max in s_maxs:
     #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
-    partonic = lambda x, y: (sigma_hat(x*y*s_max) / (x*y)) * np.pi * alpha_S.alphasQ(s_max)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
+    
+    #Constants in front of the integral:
+    consts = np.pi * alpha_S.alphasQ(s_max)**2
+    #Perform the convolution integral:
+    partonic = lambda x, y: (f_G(x,s_max)*f_G(y,s_max)*F_fermion(x*y*s_max) / (x*y)) * consts
     hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])/s_max
     hadronics.append(hadronic)
 
@@ -65,5 +73,5 @@ plt.plot(np.power(s_maxs,0.5), hadronics)
 plt.xlabel("Centre of Mass Energy")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-plt.show()
+
     
