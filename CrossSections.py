@@ -35,8 +35,12 @@ alpha_S = lhapdf.mkAlphaS("CT10nlo")
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 ##Test of SM Drell-Yan.
+test_s=100 #GeV
 
-
+'''
+QUARKS = {'u':[+2/3], 'd':[-1/3], 's':[+2/3]}
+sigma_hat_DY = lambda s: 4*np.pi*alpha_S(test_s) * np.sum(QUARKS[q] for q in ['u','d','s'])
+'''
 
 
 
@@ -48,7 +52,7 @@ sigma_hat = lambda s: - (MatrixElement_s / s**2) * 1/(12 * np.pi) * (1 + 2 * M**
 
 
 #Run over s_max:
-s_maxs = np.power(np.arange(1000,30000),2)
+s_maxs = np.power(np.arange(100,1400),2)
 hadronics = []
 for s_max in s_maxs:
     #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
