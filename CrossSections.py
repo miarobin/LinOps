@@ -15,7 +15,7 @@ TO DO:
 #Pre-calculation variables:
 M = 250 #GeV
 g = 1
-scale = s_max
+
 
 Ga = Gb = 1
 DCASIMIR = 1
