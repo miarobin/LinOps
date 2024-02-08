@@ -43,7 +43,7 @@ sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 /
 
 
 #Run over s_max:
-s_maxs = np.power(np.arange(100,2000),2)
+s_maxs = np.power(np.arange(1000,3000),2)
 hadronics = []
 for s_max in s_maxs:
     #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
