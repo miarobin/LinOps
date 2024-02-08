@@ -14,7 +14,7 @@ TO DO:
 
 #Pre-calculation variables:
 s_max = (1e4)**2 #GeV
-M = 500 #GeV
+M = 250 #GeV
 g = 1
 scale = s_max
 
