@@ -34,9 +34,10 @@ alpha_S = lhapdf.mkAlphaS("CT10nlo")
 #Need to test the PDF set does as expected.
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
+
 ##Partonic cross section. 
 #Gluon fusion matrix element over s (i.e. eq 70 in draft)
-MatrixElement_s = - Ga * Gb * SUMOVERREPS
+MatrixElement_s = - SUMOVERREPS
 #Partonic cross section
 sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.sqrt(1 - 4*M**2 / s) * DCASIMIR * g**4 / 4 if s>=4*M**2 else 0
 
@@ -46,10 +47,11 @@ s_maxs = np.power(np.arange(1000,30000),2)
 hadronics = []
 for s_max in s_maxs:
     #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
-    partonic = lambda x, y: (f_G(x,s_max) * f_G(y,s_max) * sigma_hat(x*y*s_max) / (x*y)) * np.pi * alpha_S.alphasQ(x*y*s_max)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
+    partonic = lambda x, y: (f_G(x,s_max) * f_G(y,s_max) * sigma_hat(x*y*s_max) / (x*y)) * np.pi * alpha_S.alphasQ(s_max)**2 * DCASIMIR / (8 * DCASIMIR**2 * 12) 
     hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])/s_max
     hadronics.append(hadronic)
-    
+
+
 plt.plot(np.power(s_maxs,0.5), hadronics)
 plt.xlabel("Centre of Mass Energy")
 plt.ylabel("Cross Section")
