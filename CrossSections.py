@@ -39,7 +39,7 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 #Gluon fusion matrix element over s (i.e. eq 70 in draft)
 MatrixElement_s = - SUMOVERREPS
 #Partonic cross section
-sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.sqrt(1 - 4*M**2 / s) * DCASIMIR * g**4 / 4 if s>=4*M**2 else 0
+sigma_hat = lambda s: - (MatrixElement_s / s**2) * 1/(12 * np.pi) * (1 + 2 * M**2 / s) * np.sqrt(1 - 4*M**2 / s) * DCASIMIR * g**4 / 4 if s>=4*M**2 else 0
 
 
 #Run over s_max:
