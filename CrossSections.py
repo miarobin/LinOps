@@ -43,7 +43,7 @@ sigma_hat = lambda s: - (MatrixElement_s / s) * 1/(12 * np.pi) * (1 + 2 * M**2 /
 
 
 #Run over s_max:
-s_maxs = np.power(np.arange(100,1400),2)
+s_maxs = np.power(np.arange(100,2000),2)
 hadronics = []
 for s_max in s_maxs:
     #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
@@ -51,7 +51,7 @@ for s_max in s_maxs:
     hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])/s_max
     hadronics.append(hadronic)
     
-plt.plot(s_maxs, hadronics)
+plt.plot(np.power(s_maxs,0.5), hadronics)
 plt.xlabel("Centre of Mass Energy")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
