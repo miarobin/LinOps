@@ -52,5 +52,6 @@ for s_max in s_maxs:
     hadronics.append(hadronic)
     
 plt.plot(hadronics, s_maxs)
+plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 plt.show()
     
