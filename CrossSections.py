@@ -14,7 +14,7 @@ TO DO:
 
 #Pre-calculation variables:
 s_max = (1e4)**2 #GeV
-M = 100 #GeV
+M = 500 #GeV
 g = 1
 scale = s_max
 
@@ -51,7 +51,9 @@ for s_max in s_maxs:
     hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])
     hadronics.append(hadronic)
     
-plt.plot(hadronics, s_maxs)
+plt.plot(s_maxs, hadronics)
+plt.xlabel("Centre of Mass Energy")
+plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 plt.show()
     
