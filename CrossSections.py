@@ -51,8 +51,8 @@ for MDY in MDYs:
     sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, 0.5*np.log(tau),-0.5*np.log(tau))
     result.append(sigma_hadronic_DY)
 
-plt.plot(MDYs, result)
-plt.yscale = 'log'
+plt.plot(MDYs, result*10**9)
+plt.yscale('log')
 plt.xlabel("M (GeV)")
 plt.ylabel(f"$d\sigma/dM$")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
