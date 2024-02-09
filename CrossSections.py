@@ -31,6 +31,7 @@ SUMOVERREPS = 1
 #Import the gluon PDF set. Decide on the most appropriate one later.
 p = lhapdf.mkPDF("CT10nlo", 0)
 p = lhapdf.mkPDF("CT10nlo/0")
+print(p.flavours())
 
 #This probably needs mofidying for new particles.
 alpha_S = lhapdf.mkAlphaS("CT10nlo")
