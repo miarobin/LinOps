@@ -28,10 +28,12 @@ p = lhapdf.mkPDF("CT18NNLO", 0)
 p = lhapdf.mkPDF("CT18NNLO/0")
 QUARKS = {'u':[+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
           'd':[-1/3,lambda x,s_max: p.xfxQ2(1, x, s_max)], 
-          's':[-1/3,lambda x,s_max: p.xfxQ2(3, x, s_max)]}
+          's':[-1/3,lambda x,s_max: p.xfxQ2(3, x, s_max)],
+          'c':[+2/3,lambda x,s_max: p.xfxQ2(4, x, s_max)]}
 ANTIQUARKS = {'u':[-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)], 
               'd':[+1/3,lambda x,s_max: p.xfxQ2(-1, x, s_max)], 
-              's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)]}
+              's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)],
+              'c':[-2/3,lambda x,s_max: p.xfxQ2(-4, x, s_max)]}
 
 #This probably needs mofidying for new particles.
 alpha_S = lhapdf.mkAlphaS("CT18NNLO")
@@ -49,7 +51,7 @@ for MDY in MDYs:
     def d_sigma_dMdY(x):
         return (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3*x)) * \
                 np.sum([(QUARKS[q][1](x,MDY**2)*QUARKS[q][1](tau/x,MDY**2) + 
-                         ANTIQUARKS[q][1](x,MDY**2)*ANTIQUARKS[q][1](tau/x,MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
+                         ANTIQUARKS[q][1](x,MDY**2)*ANTIQUARKS[q][1](tau/x,MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s','c']])
 
     sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, tau,1)
     result.append(sigma_hadronic_DY)
