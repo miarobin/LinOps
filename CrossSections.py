@@ -42,7 +42,7 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 
 ##Test of SM Drell-Yan.
-test_s=np.power(np.arange(0,1000),2) #GeV
+test_s=np.power(np.arange(100,1000),2) #GeV
 result = []
 for ts in test_s:
     sigma_partonic_DY = lambda x1, x2: (4*np.pi*alpha_S.alphasQ(ts)**2 / (ts**2))* np.sum([QUARKS[q][1](x1,ts)*ANTIQUARKS[q][1](x2,ts) * QUARKS[q][0]**2 for q in ['u','d','s']]) 
