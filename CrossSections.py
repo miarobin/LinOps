@@ -44,7 +44,7 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 
 ##Test of SM Drell-Yan.
-MDYs=np.linspace(100,1000,num=50) #GeV
+MDYs=np.linspace(100,400,num=50) #GeV
 result = []
 for MDY in MDYs:
     tau = MDY**2/(1800)**2
@@ -56,7 +56,7 @@ for MDY in MDYs:
     sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, tau,1)
     result.append(sigma_hadronic_DY)
 
-plt.plot(MDYs, np.array(result)*(0.3894*1e6))
+plt.plot(MDYs, np.array(result)*(0.3894*1e9))
 plt.yscale('log')
 plt.xlabel("M (GeV)")
 plt.ylabel(f"$d\sigma/dM$")
