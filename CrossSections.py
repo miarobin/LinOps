@@ -53,8 +53,8 @@ for MDY in MDYs:
                 np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(x),MDY**2)*QUARKS[q][1](np.sqrt(tau)*np.exp(-x),MDY**2) + 
                          ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(x),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-x),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s','c']])
 
-    sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, -1,1)*0.5
-    result.append(sigma_hadronic_DY)
+    sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, -1,1)
+    result.append(sigma_hadronic_DY*0.5)
 
 plt.plot(MDYs, np.array(result)*(0.3894*1e9))
 plt.yscale('log')
