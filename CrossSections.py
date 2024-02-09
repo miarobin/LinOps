@@ -46,9 +46,12 @@ MDYs=np.linspace(100,1000,num=50) #GeV
 result = []
 for MDY in MDYs:
     tau = MDY**2/(1800)**2
-    d_sigma_dMdY = lambda ycm: (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3)) * np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2)*QUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2) + ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
+    def d_sigma_dMdY(x):
+        return (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3)) * \
+                np.sum([(QUARKS[q][1](x,MDY**2)*QUARKS[q][1](tau/x,MDY**2) + 
+                         ANTIQUARKS[q][1](x,MDY**2)*ANTIQUARKS[q][1](tau/x,MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
 
-    sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, 0.5*np.log(tau),-0.5*np.log(tau))
+    sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, tau,1)
     result.append(sigma_hadronic_DY)
 
 plt.plot(MDYs, np.array(result)*(0.3894*1e6))
