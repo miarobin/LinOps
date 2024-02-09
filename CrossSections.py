@@ -15,7 +15,12 @@ TO DO:
 #Pre-calculation variables:
 M = 250 #GeV
 g = 1
-QUARKS = {'u':+2/3, 'd':-1/3, 's':+2/3}
+QUARKS = {'u':[+2/3,lambda x: lhapdf.mkPDF("CT10nlo", 2)], 
+          'd':[-1/3,lambda x: lhapdf.mkPDF("CT10nlo", 1)], 
+          's':[-1/3,lambda x: lhapdf.mkPDF("CT10nlo", 3)]}
+ANTIQUARKS = {'u':[-2/3,lambda x: lhapdf.mkPDF("CT10nlo", -2)], 
+              'd':[+1/3,lambda x: lhapdf.mkPDF("CT10nlo", -1)], 
+              's':[+1/3,lambda x: lhapdf.mkPDF("CT10nlo", -3)]}
 
 Ga = Gb = 1
 DCASIMIR = 1
@@ -34,12 +39,13 @@ alpha_S = lhapdf.mkAlphaS("CT10nlo")
 #Need to test the PDF set does as expected.
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
+
 ##Test of SM Drell-Yan.
 test_s=np.power(np.arange(0,1000),2) #GeV
 result = []
 for ts in test_s:
-    sigma_partonic_DY = lambda x1, x2, s: 4*np.pi*alpha_S.alphasQ(ts)**2 * np.sum([QUARKS[q]**2 for q in ['u','d','s']]) / (x1*x2*s)
-    sigma_hadronic_DY, err = integrate.nquad(sigma_partonic_DY, [[0, 1],[0, 1]],args=[ts])
+    sigma_partonic_DY = lambda x1, x2, s: (4*np.pi*alpha_S.alphasQ(ts)**2 / (ts**2))* np.sum([x1*QUARKS[q][1](x1)*x2*ANTIQUARKS[q][1](x2) * QUARKS[q][0]**2 for q in ['u','d','s']]) 
+    sigma_hadronic_DY, err = integrate.nquad(sigma_partonic_DY, [[0, 1],[0, 1]])
     result.append(sigma_hadronic_DY)
 plt.plot(np.power(test_s,0.5), result)
 plt.xlabel("Centre of Mass Energy")
