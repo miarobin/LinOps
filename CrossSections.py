@@ -51,7 +51,7 @@ for MDY in MDYs:
     sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, 0.5*np.log(tau),-0.5*np.log(tau))
     result.append(sigma_hadronic_DY)
 
-plt.plot(MDYs, np.array(result)*(0.3894*1e6))
+plt.plot(MDYs, np.array(result)*(0.3894*1e3))
 plt.yscale('log')
 plt.xlabel("M (GeV)")
 plt.ylabel(f"$d\sigma/dM$")
