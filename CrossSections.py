@@ -49,17 +49,17 @@ result = []
 for MDY in MDYs:
     tau = MDY**2/(1800)**2
     def d_sigma_dMdY(x):
-        return (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3*x)) * \
-                np.sum([(QUARKS[q][1](x,MDY**2)*QUARKS[q][1](tau/x,MDY**2) + 
-                         ANTIQUARKS[q][1](x,MDY**2)*ANTIQUARKS[q][1](tau/x,MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s','c']])
+        return (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3)) * \
+                np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(x),MDY**2)*QUARKS[q][1](np.sqrt(tau)*np.exp(-x),MDY**2) + 
+                         ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(x),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-x),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s','c']])
 
-    sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, tau,1)
+    sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, -1,1)*0.5
     result.append(sigma_hadronic_DY)
 
 plt.plot(MDYs, np.array(result)*(0.3894*1e9))
 plt.yscale('log')
 plt.xlabel("M (GeV)")
-plt.ylabel(f"$d\sigma/dM$")
+plt.ylabel(f"$d^2\sigma/dMdy$")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
 '''
