@@ -24,8 +24,8 @@ SUMOVERREPS = 1
 #Fermionic to start with.
 
 #Import the gluon PDF set. Decide on the most appropriate one later.
-p = lhapdf.mkPDF("CT18nlo", 0)
-p = lhapdf.mkPDF("CT18nlo/0")
+p = lhapdf.mkPDF("CT18NNLO", 0)
+p = lhapdf.mkPDF("CT18NNLO/0")
 QUARKS = {'u':[+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
           'd':[-1/3,lambda x,s_max: p.xfxQ2(1, x, s_max)], 
           's':[-1/3,lambda x,s_max: p.xfxQ2(3, x, s_max)]}
@@ -34,7 +34,7 @@ ANTIQUARKS = {'u':[-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)],
               's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)]}
 
 #This probably needs mofidying for new particles.
-alpha_S = lhapdf.mkAlphaS("CT10nlo")
+alpha_S = lhapdf.mkAlphaS("CT18NNLO")
 
 
 #Need to test the PDF set does as expected.
@@ -42,11 +42,11 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 
 ##Test of SM Drell-Yan.
-MDYs=np.linspace(100,1000,num=50) #GeV
+MDYs=np.linspace(2,16,num=50) #GeV
 result = []
 for MDY in MDYs:
-    tau = MDY**2/(1800)**2
-    d_sigma_dMdY = lambda ycm: (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*M**3)) * np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2) + QUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
+    tau = MDY**2/(38.7)**2
+    d_sigma_dMdY = lambda ycm: (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3)) * np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2) + QUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
 
     sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, 0.5*np.log(tau),-0.5*np.log(tau))
     result.append(sigma_hadronic_DY)
