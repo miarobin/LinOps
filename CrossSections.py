@@ -15,12 +15,12 @@ TO DO:
 #Pre-calculation variables:
 M = 250 #GeV
 g = 1
-QUARKS = {'u':[+2/3,lambda x: lhapdf.mkPDF("CT10nlo", 2)], 
-          'd':[-1/3,lambda x: lhapdf.mkPDF("CT10nlo", 1)], 
-          's':[-1/3,lambda x: lhapdf.mkPDF("CT10nlo", 3)]}
-ANTIQUARKS = {'u':[-2/3,lambda x: lhapdf.mkPDF("CT10nlo", -2)], 
-              'd':[+1/3,lambda x: lhapdf.mkPDF("CT10nlo", -1)], 
-              's':[+1/3,lambda x: lhapdf.mkPDF("CT10nlo", -3)]}
+QUARKS = {'u':[+2/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", 2).xfxQ2(21, x, s_max)], 
+          'd':[-1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", 1).xfxQ2(21, x, s_max)], 
+          's':[-1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", 3).xfxQ2(21, x, s_max)]}
+ANTIQUARKS = {'u':[-2/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", -2).xfxQ2(21, x, s_max)], 
+              'd':[+1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", -1).xfxQ2(21, x, s_max)], 
+              's':[+1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", -3).xfxQ2(21, x, s_max)]}
 
 Ga = Gb = 1
 DCASIMIR = 1
@@ -44,7 +44,7 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 test_s=np.power(np.arange(0,1000),2) #GeV
 result = []
 for ts in test_s:
-    sigma_partonic_DY = lambda x1, x2: (4*np.pi*alpha_S.alphasQ(ts)**2 / (ts**2))* np.sum([x1*QUARKS[q][1](x1)*x2*ANTIQUARKS[q][1](x2) * QUARKS[q][0]**2 for q in ['u','d','s']]) 
+    sigma_partonic_DY = lambda x1, x2: (4*np.pi*alpha_S.alphasQ(ts)**2 / (ts**2))* np.sum([x1*QUARKS[q][1](x1,ts)*x2*ANTIQUARKS[q][1](x2,ts) * QUARKS[q][0]**2 for q in ['u','d','s']]) 
     sigma_hadronic_DY, err = integrate.nquad(sigma_partonic_DY, [[0, 1],[0, 1]])
     result.append(sigma_hadronic_DY)
 plt.plot(np.power(test_s,0.5), result)
