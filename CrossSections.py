@@ -42,15 +42,16 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 
 ##Test of SM Drell-Yan.
-test_s=np.power(np.arange(100,1000),2) #GeV
+MDYs=np.arange(100,1000) #GeV
 result = []
-for ts in test_s:
-    sigma_partonic_DY = lambda x1, x2: (4*np.pi*alpha_S.alphasQ(ts)**2 / (ts**2))* np.sum([QUARKS[q][1](x1,ts)*ANTIQUARKS[q][1](x2,ts) * QUARKS[q][0]**2 for q in ['u','d','s']]) 
-    sigma_hadronic_DY, err = integrate.nquad(sigma_partonic_DY, [[0, 1],[0, 1]])
+for MDY in MDYs:
+    tau = MDY**2/(38.7)**2
+    d_sigma_dMdY = lambda ycm: (8*np.pi*alpha_S.alphasQ(ts)**2 / (3*3*M**3)) * np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),ts)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),ts) + QUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),ts)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),ts))* QUARKS[q][0]**2 for q in ['u','d','s']])
+    sigma_hadronic_DY, err = integrate.nquad(d_sigma_dMdY, [[0.5*np.log(tau)],[-0.5*np.log(tau)]])
     result.append(sigma_hadronic_DY)
-plt.plot(np.power(test_s,0.5), result)
-plt.xlabel("Centre of Mass Energy")
-plt.ylabel("Cross Section Drell Yan")
+plt.plot(MDYs, result)
+plt.xlabel("M (GeV)")
+plt.ylabel(f"$d\sigma/dM")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
 
