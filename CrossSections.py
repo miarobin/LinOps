@@ -58,8 +58,8 @@ for MDY in MDYs:
 
 plt.plot(MDYs, np.array(result)*(0.3894*1e9))
 plt.yscale('log')
-plt.xlabel("M (GeV)")
-plt.ylabel(f"$d^2\sigma/dMdy$")
+plt.xlabel("Lepton invariant mass M (GeV)")
+plt.ylabel(f"$d^2\sigma/dMdy$ for $|y|<1$ (pb/GeV)")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
 '''
