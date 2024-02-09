@@ -42,7 +42,7 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 
 ##Test of SM Drell-Yan.
-MDYs=np.arange(100,1000) #GeV
+MDYs=np.arange(2,16) #GeV
 result = []
 for MDY in MDYs:
     tau = MDY**2/(38.7)**2
