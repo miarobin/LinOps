@@ -15,12 +15,7 @@ TO DO:
 #Pre-calculation variables:
 M = 250 #GeV
 g = 1
-QUARKS = {'u':[+2/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", 2).xfxQ2(2, x, s_max)], 
-          'd':[-1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", 1).xfxQ2(1, x, s_max)], 
-          's':[-1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", 3).xfxQ2(3, x, s_max)]}
-ANTIQUARKS = {'u':[-2/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", -2).xfxQ2(-2, x, s_max)], 
-              'd':[+1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", -1).xfxQ2(-1, x, s_max)], 
-              's':[+1/3,lambda x,s_max: lhapdf.mkPDF("CT10nlo", -3).xfxQ2(-3, x, s_max)]}
+
 
 Ga = Gb = 1
 DCASIMIR = 1
@@ -31,7 +26,12 @@ SUMOVERREPS = 1
 #Import the gluon PDF set. Decide on the most appropriate one later.
 p = lhapdf.mkPDF("CT10nlo", 0)
 p = lhapdf.mkPDF("CT10nlo/0")
-print(p.flavours())
+QUARKS = {'u':[+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
+          'd':[-1/3,lambda x,s_max: p.xfxQ2(1, x, s_max)], 
+          's':[-1/3,lambda x,s_max: p.xfxQ2(3, x, s_max)]}
+ANTIQUARKS = {'u':[-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)], 
+              'd':[+1/3,lambda x,s_max: p.xfxQ2(-1, x, s_max)], 
+              's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)]}
 
 #This probably needs mofidying for new particles.
 alpha_S = lhapdf.mkAlphaS("CT10nlo")
