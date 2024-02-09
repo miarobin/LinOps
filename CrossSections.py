@@ -46,7 +46,7 @@ MDYs=np.linspace(2,16,num=50) #GeV
 result = []
 for MDY in MDYs:
     tau = MDY**2/(38.7)**2
-    d_sigma_dMdY = lambda ycm: (8*np.pi*alpha_S.alphasQ(MDY**2)**2 / (3*3*M**3)) * np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2) + QUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
+    d_sigma_dMdY = lambda ycm: (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*M**3)) * np.sum([(QUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2) + QUARKS[q][1](np.sqrt(tau)*np.exp(-ycm),MDY**2)*ANTIQUARKS[q][1](np.sqrt(tau)*np.exp(+ycm),MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
 
     sigma_hadronic_DY, err = integrate.quad(d_sigma_dMdY, 0.5*np.log(tau),-0.5*np.log(tau))
     result.append(sigma_hadronic_DY)
