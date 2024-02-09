@@ -47,7 +47,7 @@ result = []
 for MDY in MDYs:
     tau = MDY**2/(1800)**2
     def d_sigma_dMdY(x):
-        return (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3)) * \
+        return (8*np.pi*alpha_S.alphasQ(MDY)**2 / (3*3*MDY**3*x)) * \
                 np.sum([(QUARKS[q][1](x,MDY**2)*QUARKS[q][1](tau/x,MDY**2) + 
                          ANTIQUARKS[q][1](x,MDY**2)*ANTIQUARKS[q][1](tau/x,MDY**2))* QUARKS[q][0]**2 for q in ['u','d','s']])
 
