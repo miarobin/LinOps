@@ -5,25 +5,12 @@ from matplotlib import pyplot as plt
 
 '''
 TO DO:
-- Sort out alpha_s.
 - Constants e.g. M, g, ...
 - Add in other processes (e.g. non-fermions, different production mechanisms, ...).
-- Check sigma_hat (i.e. manually set range of validity).
-- Check against a known process.
 '''
 
-#Pre-calculation variables:
-M = 250 #GeV
-g = 1
 
-
-Ga = Gb = 1
-DCASIMIR = 1
-SUMOVERREPS = 1
-
-#Fermionic to start with.
-
-#Import the gluon PDF set. Decide on the most appropriate one later.
+#Import the PDF set. Decide on the most appropriate one later.
 p = lhapdf.mkPDF("CT18NNLO", 0)
 p = lhapdf.mkPDF("CT18NNLO/0")
 QUARKS = {'u':[+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
@@ -35,12 +22,10 @@ ANTIQUARKS = {'u':[-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)],
               's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)],
               'c':[-2/3,lambda x,s_max: p.xfxQ2(-4, x, s_max)]}
 
-#This probably needs mofidying for new particles.
+f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
+
 alpha_S = lhapdf.mkAlphaS("CT18NNLO")
 
-
-#Need to test the PDF set does as expected.
-f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 
 
 ##Test of SM Drell-Yan.
@@ -62,32 +47,32 @@ plt.xlabel("Lepton invariant mass M (GeV)")
 plt.ylabel(f"$d^2\sigma/dMdy$ for $|y|<1$ (pb/GeV)")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
-'''
-##Partonic cross section. 
-#Gluon fusion matrix element over s (i.e. eq 70 in draft)
-MatrixElement_s = - SUMOVERREPS
-#Partonic cross section
-F_fermion = lambda s: 2 * np.sqrt(1-4*M**2/s) * (1+2*M**2/s) if s>=4*M**2 else 0
-F_scalar = lambda s: (1-4*M**2)**(3/2) if s>=4*M**2 else 0
 
 
-#Run over s_max:
-s_maxs = np.power(np.arange(100,3000),2)
-hadronics = []
-for s_max in s_maxs:
-    #Computing the convolution of the gluon PDFs with the partonic cross section (i.e. eq 71 & 72 in draft)(NOT FINISHED)
+#NEW STUFF
+#Partonic cross sections
+def G_gluon(s,M):
+    R = 1
+    if 1-4*M**2/s >= 0:
+        integrand = lambda t1: (2/s) * ( -(1/4)*(s**2/(t1**2 + s*t1) + 2) - (M**2*s/(s**2*t1 + t1**2)) * (1 + M**2*s/(s*t1 + t1**2)) \
+                                        + R*( -(1/2)*((s*t1 + t1**2)/s**2 + 1) - (M**2/s)*(s*M**2/(t1**2 + s*t1) + 1)))
+        return integrate.quad(integrand, -s, +s)[0]
+    else:
+        return 0
     
-    #Constants in front of the integral:
-    consts = np.pi * alpha_S.alphasQ(s_max)**2
-    #Perform the convolution integral:
-    partonic = lambda x, y: (f_G(x,s_max)*f_G(y,s_max)*F_fermion(x*y*s_max) / (x*y)**2) * consts
-    hadronic, err = integrate.nquad(partonic, [[0, 1],[0, 1]])/s_max
-    hadronics.append(hadronic)
+#COLOUR CROSS-SECTION
+Mnews=np.linspace(500,2000,num=50)
+LHC = 13.5e3 #GeV
+
+result = []
+for Mn in Mnews:
+    consts_color=1
+    sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_gluon(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
+
+    result.append(sigma_color)
 
 
-plt.plot(np.power(s_maxs,0.5), hadronics)
-plt.xlabel("Centre of Mass Energy")
+plt.plot(result,Mnews)
+plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-
-'''
