@@ -47,7 +47,7 @@ plt.xlabel("Lepton invariant mass M (GeV)")
 plt.ylabel(f"$d^2\sigma/dMdy$ for $|y|<1$ (pb/GeV)")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
-plt.show()
+plt.figure()
 
 #NEW STUFF
 #Partonic cross sections
