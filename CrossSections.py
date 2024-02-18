@@ -35,8 +35,8 @@ plt.figure()
 #Partonic cross sections
 def dG_dt(s,M,t):
     R = 1
-    return (2/s) * ( (1/4)*(s**2/(t*(2*M**2-t-s)) - 2) + (M**2*s/((2*M**2-s-t)*t)) * (1 - M**2*s/((2*M**2-t-s)*t)) \
-                                        + R*( (1/2)*(((2*M**2-t-s)*t)/s**2 - 1) + (M**2/s)*(s*M**2/((2*M**2-s-t)*t) - 1)))
+    return (2/s) * ( (1/4)*(s**2/(t*(-t-s)) - 2) + (M**2*s/((-s-t)*t)) * (1 - M**2*s/((-t-s)*t)) \
+                                        + R*( (1/2)*(((-t-s)*t)/s**2 - 1) + (M**2/s)*(s*M**2/((-s-t)*t) - 1)))
 
 def G_gluon(s,M):
     betasq = 1 - 4*M**2/s
@@ -88,5 +88,5 @@ plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 plt.figure()
 #Use beta = 1/2 and M=1000GeV.
 xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
-plt.plot(xs,dG_dt(4*1000**2/(1-.25),1000,xs))
+plt.plot(xs,dG_dt(4*1000**2/(1-.25),1000,xs*1000))
 plt.savefig("dGdtTest.pdf", format="pdf", bbox_inches="tight")
