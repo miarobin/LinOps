@@ -54,6 +54,7 @@ plt.figure()
 def G_gluon(s,M):
     R = 1
     if 1-4*M**2/s >= 0:
+        print('hi')
         integrand = lambda t1: (2/s) * ( -(1/4)*(s**2/(t1**2 + s*t1) + 2) - (M**2*s/(s**2*t1 + t1**2)) * (1 + M**2*s/(s*t1 + t1**2)) \
                                         + R*( -(1/2)*((s*t1 + t1**2)/s**2 + 1) - (M**2/s)*(s*M**2/(t1**2 + s*t1) + 1)))
         return integrate.quad(integrand, -s, +s)[0]
@@ -61,7 +62,7 @@ def G_gluon(s,M):
         return 0
     
 #COLOUR CROSS-SECTION
-Mnews=np.linspace(500,2000,num=50)
+Mnews=np.linspace(100,600,num=50)
 LHC = 100e3 #GeV
 
 result = []
