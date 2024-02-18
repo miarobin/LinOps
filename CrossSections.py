@@ -39,8 +39,9 @@ def dG_dt(s,M,t):
                                         + R*( -(1/2)*((s*t + t**2)/s**2 + 1) - (M**2/s)*(s*M**2/(t**2 + s*t) + 1)))
 
 def G_gluon(s,M):
-    beta = np.sqrt(1 - 4*M**2/s)
-    if beta**2 >= 0:
+    betasq = 1 - 4*M**2/s
+    if betasq >= 0:
+        beta = np.sqrt(betasq)
         return integrate.quad(lambda t: dG_dt(s,M,t), -(1+beta)/2, -(1-beta)/2)[0]
     else:
         return 0
