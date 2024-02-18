@@ -27,8 +27,44 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 alpha_S = lhapdf.mkAlphaS("CT18NNLO")
 
 
+plt.figure()
 
-##Test of SM Drell-Yan.
+
+
+#NEW STUFF
+#Partonic cross sections
+def dG_dt(s,M,t):
+    R = 1
+    return (2/s) * ( -(1/4)*(s**2/(t**2 + s*t) + 2) - (M**2*s/(s**2*t + t**2)) * (1 + M**2*s/(s*t + t**2)) \
+                                        + R*( -(1/2)*((s*t + t**2)/s**2 + 1) - (M**2/s)*(s*M**2/(t**2 + s*t) + 1)))
+
+def G_gluon(s,M):
+    beta = np.sqrt(1 - 4*M**2/s)
+    if beta**2 >= 0:
+        return integrate.quad(lambda t: dG_dt(s,M,t), -(1+beta)/2, -(1-beta)/2)[0]
+    else:
+        return 0
+    
+#COLOUR CROSS-SECTION
+Mnews=np.linspace(600,1000,num=50)
+LHC = (13.5e3)**2 #GeV^2
+
+result = []
+for Mn in Mnews:
+    consts_color=1
+    sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_gluon(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
+    result.append(sigma_color)
+
+
+plt.plot(Mnews,result)
+plt.xlabel("Mass of New Particle")
+plt.ylabel("Cross Section")
+plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
+
+
+#TESTS
+
+#1: pdf test using SM Drell-Yan
 MDYs=np.linspace(100,400,num=50) #GeV
 result = []
 for MDY in MDYs:
@@ -47,33 +83,9 @@ plt.xlabel("Lepton invariant mass M (GeV)")
 plt.ylabel(f"$d^2\sigma/dMdy$ for $|y|<1$ (pb/GeV)")
 plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
+#2: Test of gluon partonic cross section against Rodrigo's
 plt.figure()
-
-#NEW STUFF
-#Partonic cross sections
-def G_gluon(s,M):
-    R = 1
-    if 1-4*M**2/s >= 0:
-        print('hi')
-        integrand = lambda t1: (2/s) * ( -(1/4)*(s**2/(t1**2 + s*t1) + 2) - (M**2*s/(s**2*t1 + t1**2)) * (1 + M**2*s/(s*t1 + t1**2)) \
-                                        + R*( -(1/2)*((s*t1 + t1**2)/s**2 + 1) - (M**2/s)*(s*M**2/(t1**2 + s*t1) + 1)))
-        return integrate.quad(integrand, -s, +s)[0]
-    else:
-        return 0
-    
-#COLOUR CROSS-SECTION
-Mnews=np.linspace(100,600,num=50)
-LHC = 100e3 #GeV
-
-result = []
-for Mn in Mnews:
-    consts_color=1
-    sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_gluon(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
-
-    result.append(sigma_color)
-
-
-plt.plot(Mnews,result)
-plt.xlabel("Mass of New Particle")
-plt.ylabel("Cross Section")
-plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
+#Use beta = 1/2 and M=1000GeV.
+xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
+plt.plot(dG_dt(4*1000**1/(1-.25),1000,xs),xs)
+plt.savefig("dGdtTest.pdf", format="pdf", bbox_inches="tight")
