@@ -62,7 +62,7 @@ def G_gluon(s,M):
     
 #COLOUR CROSS-SECTION
 Mnews=np.linspace(500,2000,num=50)
-LHC = 13.5e3 #GeV
+LHC = 100e3 #GeV
 
 result = []
 for Mn in Mnews:
@@ -72,7 +72,7 @@ for Mn in Mnews:
     result.append(sigma_color)
 
 
-plt.plot(result,Mnews)
+plt.plot(Mnews,result)
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
