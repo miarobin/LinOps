@@ -35,7 +35,7 @@ plt.figure()
 #Partonic cross sections
 def dG_dt(s,M,t):
     R = 1
-    return (2/s) * ( -(1/4)*(s**2/(t**2 + s*t) + 2) - (M**2*s/(s**2*t + t**2)) * (1 + M**2*s/(s*t + t**2)) \
+    return (2/s) * ( -(1/4)*(s**2/(t**2 + s*t) + 2) - (M**2*s/(s*t + t**2)) * (1 + M**2*s/(s*t + t**2)) \
                                         + R*( -(1/2)*((s*t + t**2)/s**2 + 1) - (M**2/s)*(s*M**2/(t**2 + s*t) + 1)))
 
 def G_gluon(s,M):
