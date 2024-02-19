@@ -80,7 +80,7 @@ LHC = (13.5e3)**2 #GeV^2
 result = []
 for Mn in Mnews:
     consts_color=1
-    sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_gluon(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
+    sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
     result.append(sigma_color)
 
 
