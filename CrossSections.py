@@ -76,7 +76,7 @@ def F_fermion(s,M):
 #COLOUR CROSS-SECTION
 Mnews=np.linspace(600,1000,num=50)
 LHC = (13.5e3)**2 #GeV^2
-
+'''
 result = []
 for Mn in Mnews:
     consts_color=1
@@ -87,7 +87,7 @@ for Mn in Mnews:
 plt.plot(Mnews,result)
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
-plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
+plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")'''
 
 
 #TESTS
