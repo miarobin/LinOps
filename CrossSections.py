@@ -38,18 +38,45 @@ def dG_dt(s,M,t):
     return (2/s) * ( (1/4)*(s**2/(t*(-t-s)) - 2) + (M**2*s/((-s-t)*t)) * (1 - M**2*s/((-t-s)*t)) \
                                         + R*( (1/2)*(((-t-s)*t)/s**2 - 1) + (M**2/s)*(s*M**2/((-s-t)*t) - 1)))
 
-def G_gluon(s,M):
+def G_fermion(s,M):
     betasq = 1 - 4*M**2/s
     if betasq >= 0:
         beta = np.sqrt(betasq)
-        return integrate.quad(lambda t: dG_dt(s,M,t), -(1+beta)/2, -(1-beta)/2)[0]
+        return integrate.quad(lambda t: dG_dt(s,M,t), -s*(1+beta)/2, -s*(1-beta)/2)[0]
     else:
         return 0
+    
+def dGs_dx(x,beta):
+    R = 1
+    return (1/2) + ((beta**2-1)/4)* 1/(x**2 + x) * (((beta**2-1)/4)* 1/(x**2 + x) + 1) + R( (1/8) + (x**2 + x)/2 + ((beta**2-1)/4)*(((beta**2-1)/4)* 1/(x**2 + x) + 1))
+    
+def G_scalar(s,M):
+    betasq = 1 - 4*M**2/s
+    if betasq>=0:
+        beta = np.sqrt(betasq)
+        return integrate.quad(lambda x: dGs_dx(x,beta), -(1+beta)/2, -(1-beta)/2)
+    else:
+        return 0
+    
+def F_scalar(s,M):
+    betasq = 1 - 4*M**2/s
+    if betasq>=0:
+        beta = np.sqrt(betasq)
+        return beta**3/3
+    else:
+        return 0
+    
+def F_fermion(s,M):
+    betasq = 1 - 4*M**2/s
+    if betasq>=0:
+        beta = np.sqrt(betasq)
+        return (2/3)*beta*(1-beta**2)
+        
     
 #COLOUR CROSS-SECTION
 Mnews=np.linspace(600,1000,num=50)
 LHC = (13.5e3)**2 #GeV^2
-'''
+
 result = []
 for Mn in Mnews:
     consts_color=1
@@ -61,7 +88,7 @@ plt.plot(Mnews,result)
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-'''
+
 
 #TESTS
 
@@ -88,5 +115,11 @@ plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 plt.figure()
 #Use beta = 1/2 and M=1000GeV.
 xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
-plt.plot(xs,4*1000**2/(1-.25)*(1/2)*dG_dt(4*1000**2/(1-.25),1000,xs*4*1000**2/(1-.25)))
+plt.plot(xs,4*1000**2/(1-.25)*dG_dt(4*1000**2/(1-.25),1000,xs*4*1000**2/(1-.25)))
 plt.savefig("dGdtTest.pdf", format="pdf", bbox_inches="tight")
+
+plt.figure()
+#Use beta = 1/2 and M=1000GeV.
+xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
+plt.plot(xs,dGs_dx(xs,1/2))
+plt.savefig("dGsdxTest.pdf", format="pdf", bbox_inches="tight")
