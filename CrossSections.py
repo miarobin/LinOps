@@ -75,14 +75,14 @@ def F_fermion(s,M):
         
     
 #COLOUR CROSS-SECTION
-Mnews=np.linspace(10000,100000,num=50)
+Mnews=np.linspace(600,800,num=5)
 LHC = (13.5e3)**2 #GeV^2
 
 result = []
 for Mn in Mnews:
     consts=1
     #sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
-    sigma_qqY = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
+    sigma_qqY = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn) *\
                                 np.sum([QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC)*QUARKS[q][0]**2 for q in ['u','d']]),[[0.01,1],[0.01,1]])
     result.append(sigma_qqY)
 
