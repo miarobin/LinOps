@@ -88,5 +88,5 @@ plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 plt.figure()
 #Use beta = 1/2 and M=1000GeV.
 xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
-plt.plot(xs,dG_dt(4*1000**2/(1-.25),1000,xs*1000**2))
+plt.plot(xs,dG_dt(4*1000**2/(1-.25),1000,xs*4*1000**2/(1-.25)))
 plt.savefig("dGdtTest.pdf", format="pdf", bbox_inches="tight")
