@@ -82,7 +82,7 @@ for Mn in Mnews:
     consts=1
     #sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
     sigma_qqY = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
-                                np.sum([QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC)*QUARKS[q][0]**2 for q in ['u','d']]),[[0,1],[0,1]])
+                                np.sum([QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC)*QUARKS[q][0]**2 for q in ['u','d']]),[[0.01,1],[0.01,1]])
     result.append(sigma_qqY)
 
 plt.plot(Mnews,result)
