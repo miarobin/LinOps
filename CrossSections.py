@@ -62,6 +62,7 @@ def F_scalar(s,M):
     betasq = 1 - 4*M**2/s
     if betasq>=0:
         beta = np.sqrt(betasq)
+
         return beta**3/3
     else:
         return 0
@@ -74,7 +75,7 @@ def F_fermion(s,M):
         
     
 #COLOUR CROSS-SECTION
-Mnews=np.linspace(600,1000,num=50)
+Mnews=np.linspace(10000,100000,num=50)
 LHC = (13.5e3)**2 #GeV^2
 
 result = []
