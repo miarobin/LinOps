@@ -76,18 +76,19 @@ def F_fermion(s,M):
 #COLOUR CROSS-SECTION
 Mnews=np.linspace(600,1000,num=50)
 LHC = (13.5e3)**2 #GeV^2
-'''
+
 result = []
 for Mn in Mnews:
-    consts_color=1
-    sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
-    result.append(sigma_color)
-
+    consts=1
+    #sigma_color = consts_color*integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0,1],[0,1]])
+    sigma_qqY = integrate.nquad(lambda x,y: F_scalar(x*y*LHC)/(x*y)**2 *\
+                                np.sum([QUARKS[q][1](x)*ANTIQUARKS[q][1](y)*QUARKS[q][0]**2 for q in ['u','d']]))
+    result.append(sigma_qqY)
 
 plt.plot(Mnews,result)
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
-plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")'''
+plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 
 
 #TESTS
