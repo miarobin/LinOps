@@ -63,7 +63,7 @@ def F_scalar(s,M):
     if betasq>=0:
         beta = np.sqrt(betasq)
 
-        return beta**3/3
+        return 2*beta**3/3
     else:
         return 0
     
@@ -85,9 +85,9 @@ results = []
 for Mn in Mnews:
     consts=1
     sigma_GGf = integrate.nquad(lambda x,y: 1e6*f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
-    sigma_GGs = integrate.nquad(lambda x,y: 1e6*f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
+    #sigma_GGs = integrate.nquad(lambda x,y: 1e6*f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
 
-    results.append([sigma_GGf,sigma_GGs])
+    results.append([sigma_GGf])
     '''
     #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
@@ -110,7 +110,7 @@ for Mn in Mnews:
 
 results = np.array(results)
 plt.plot(Mnews,results[:,0])
-plt.plot(Mnews,results[:,1])
+#plt.plot(Mnews,results[:,1])
 #plt.plot(Mnews,results[:,3])
 #plt.plot(Mnews,results[:,4])
 #plt.plot(Mnews,results[:,5])
