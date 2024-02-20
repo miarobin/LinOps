@@ -78,20 +78,42 @@ def F_fermion(s,M):
 Mnews=np.linspace(600,800,num=5)
 LHC = (13.5e3)**2 #GeV^2
 
-print(alpha_S.alphasQ2(600**2))
-print(alpha_S.alphasQ2(800**2))
+print(alpha_S.alphasQ2(100**2))
+print(alpha_S.alphasQ2(500**2))
 
 results = []
 for Mn in Mnews:
     consts=1
-    sigma_GG = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
-    sigma_qqY = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
-                                np.sum([QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC)*QUARKS[q][0]**2 for q in ['u','d']]),[[0.001,1],[0.001,1]])
-    results.append([sigma_GG,sigma_qqY])
+    sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
+
+    results.append([sigma_GGf,sigma_GGs])
+    '''
+    #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
+    sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
+                                np.sum([(QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC))*(QUARKS[q][0]**2+(1/6)**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])
+    
+    sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(x*y*LHC,Mn)/(x*y)**2 *\
+                                np.sum([(QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC))*(QUARKS[q][0]**2+(1/6)**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])
+    
+
+    sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(x*y*LHC,Mn)/(x*y)**2 *\
+                                (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
+                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))))
+
+
+    sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
+                                (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
+                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))))
+
+    results.append([sigma_GGf,sigma_GGs,sigma_qqYs,sigma_qqYf,sigma_qqLf])'''
 
 results = np.array(results)
 plt.plot(Mnews,results[:,0])
 plt.plot(Mnews,results[:,1])
+#plt.plot(Mnews,results[:,3])
+#plt.plot(Mnews,results[:,4])
+#plt.plot(Mnews,results[:,5])
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
