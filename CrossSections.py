@@ -77,6 +77,8 @@ def F_fermion(s,M):
     if betasq>=0:
         beta = np.sqrt(betasq)
         return (2/3)*beta*(1-beta**2)
+    else:
+        return 0
         
     
 #COLOUR CROSS-SECTION
