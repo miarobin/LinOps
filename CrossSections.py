@@ -38,25 +38,30 @@ def dG_dt(s,M,t):
     return (2/s) * ( (1/4)*(s**2/(t*(-t-s)) - 2) + (M**2*s/((-s-t)*t)) * (1 - M**2*s/((-t-s)*t)) \
                                         + R*( (1/2)*(((-t-s)*t)/s**2 - 1) + (M**2/s)*(s*M**2/((-s-t)*t) - 1)))
 
+    
+def G_scalar(s,M):
+    betasq = 1 - 4*M**2/s
+    if betasq>=0:
+        beta = np.sqrt(betasq)
+        r=1
+        return beta*(2-betasq)/2 - (1-betasq**2)*np.arctanh(beta)/2 +\
+            r*(beta*(6-5*betasq)/24 - (1-betasq)**2*np.arctanh(beta)/4)
+    else:
+        return 0
+
 def G_fermion(s,M):
     betasq = 1 - 4*M**2/s
-    if betasq >= 0:
+    if betasq>=0:
         beta = np.sqrt(betasq)
-        return integrate.quad(lambda t: dG_dt(s,M,t), -s*(1+beta)/2, -s*(1-beta)/2)[0]
+        r=1
+        return betasq*(betasq-2)/2 - (3-betasq**2)+\
+            r*(beta*(betasq-3)/12 + (1-betasq)**2*np.arctanh(beta)/2)
     else:
         return 0
     
 def dGs_dx(x,beta):
     R = 1
     return (1/2) + ((beta**2-1)/4)* 1/(x**2 + x) * (((beta**2-1)/4)* 1/(x**2 + x) + 1) + R*( (1/8) + (x**2 + x)/2 + ((beta**2-1)/4)*(((beta**2-1)/4)* 1/(x**2 + x) + 1))
-    
-def G_scalar(s,M):
-    betasq = 1 - 4*M**2/s
-    if betasq>=0:
-        beta = np.sqrt(betasq)
-        return integrate.quad(lambda x: dGs_dx(x,beta), -(1+beta)/2, -(1-beta)/2)
-    else:
-        return 0
     
 def F_scalar(s,M):
     betasq = 1 - 4*M**2/s
