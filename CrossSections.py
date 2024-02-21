@@ -105,12 +105,12 @@ for Mn in Mnews:
 
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(x*y*LHC,Mn)/(x*y)**2 *\
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
-                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))))
+                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])
 
 
     sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
-                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))))
+                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])
 
     results.append([sigma_GGf,sigma_GGs,sigma_qqYs,sigma_qqYf,sigma_qqLf])
 
