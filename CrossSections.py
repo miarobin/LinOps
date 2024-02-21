@@ -84,7 +84,7 @@ print(alpha_S.alphasQ2(500**2))
 results = []
 for Mn in Mnews:
     consts=1
-    sigma_GGf = integrate.nquad(lambda x,y: 1e6*f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
+    sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])
     #sigma_GGs = integrate.nquad(lambda x,y: 1e6*f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])
 
     results.append([sigma_GGf])
