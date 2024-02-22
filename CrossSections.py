@@ -33,12 +33,7 @@ plt.figure()
 
 #NEW STUFF
 #Partonic cross sections
-def dG_dt(s,M,t):
-    R = 1
-    return (2/s) * ( (1/4)*(s**2/(t*(-t-s)) - 2) + (M**2*s/((-s-t)*t)) * (1 - M**2*s/((-t-s)*t)) \
-                                        + R*( (1/2)*(((-t-s)*t)/s**2 - 1) + (M**2/s)*(s*M**2/((-s-t)*t) - 1)))
 
-    
 def G_scalar(s,M):
     betasq = 1 - 4*M**2/s
     if betasq>=0:
@@ -59,10 +54,7 @@ def G_fermion(s,M):
     else:
         return 0
     
-def dGs_dx(x,beta):
-    R = 1
-    return (1/2) + ((beta**2-1)/4)* 1/(x**2 + x) * (((beta**2-1)/4)* 1/(x**2 + x) + 1) + R*( (1/8) + (x**2 + x)/2 + ((beta**2-1)/4)*(((beta**2-1)/4)* 1/(x**2 + x) + 1))
-    
+
 def F_scalar(s,M):
     betasq = 1 - 4*M**2/s
     if betasq>=0:
@@ -91,8 +83,8 @@ print(alpha_S.alphasQ2(500**2))
 results = []
 for Mn in Mnews:
     consts=1
-    sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    #sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    #sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     
     #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
@@ -112,11 +104,11 @@ for Mn in Mnews:
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
                                 (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
 
-    results.append([sigma_GGf,sigma_GGs,sigma_qqYs,sigma_qqYf,sigma_qqLf,sigma_qqLs])
+    results.append([0,0,sigma_qqYs,sigma_qqYf,sigma_qqLf,sigma_qqLs])
 
 results = np.array(results)
-plt.plot(Mnews,results[:,0],color='red')
-plt.plot(Mnews,results[:,1],color='blue')
+#plt.plot(Mnews,results[:,0],color='red')
+#plt.plot(Mnews,results[:,1],color='blue')
 plt.plot(Mnews,results[:,2],color='black')
 plt.plot(Mnews,results[:,3],color='grey')
 plt.plot(Mnews,results[:,4],color='orange')
@@ -149,6 +141,14 @@ plt.savefig("DrellYanTest.pdf", format="pdf", bbox_inches="tight")
 
 #2: Test of gluon partonic cross section against Rodrigo's
 plt.figure()
+def dG_dt(s,M,t):
+    R = 1
+    return (2/s) * ( (1/4)*(s**2/(t*(-t-s)) - 2) + (M**2*s/((-s-t)*t)) * (1 - M**2*s/((-t-s)*t)) \
+                                        + R*( (1/2)*(((-t-s)*t)/s**2 - 1) + (M**2/s)*(s*M**2/((-s-t)*t) - 1)))
+def dGs_dx(x,beta):
+    R = 1
+    return (1/2) + ((beta**2-1)/4)* 1/(x**2 + x) * (((beta**2-1)/4)* 1/(x**2 + x) + 1) + R*( (1/8) + (x**2 + x)/2 + ((beta**2-1)/4)*(((beta**2-1)/4)* 1/(x**2 + x) + 1))
+    
 #Use beta = 1/2 and M=1000GeV.
 xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
 plt.plot(xs,4*1000**2/(1-.25)*dG_dt(4*1000**2/(1-.25),1000,xs*4*1000**2/(1-.25)))
