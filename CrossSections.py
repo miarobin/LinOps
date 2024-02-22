@@ -54,8 +54,8 @@ def G_fermion(s,M):
     if betasq>=0:
         beta = np.sqrt(betasq)
         r=1
-        return beta*(betasq-2)/2 - (3-betasq**2)+\
-            r*(beta*(betasq-3)/12 + (1-betasq)**2*np.arctanh(beta)/2)
+        return beta*(betasq-2)/2 + (3-betasq**2)+\
+            r*(5*beta*(betasq-3)/12 - (1-betasq)**2*np.arctanh(beta)/2)
     else:
         return 0
     
@@ -105,12 +105,12 @@ for Mn in Mnews:
 
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(x*y*LHC,Mn)/(x*y)**2 *\
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
-                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])
+                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])/4
 
 
     sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
-                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])
+                                (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])/4
 
     results.append([sigma_GGf,sigma_GGs,sigma_qqYs,sigma_qqYf,sigma_qqLf,sigma_qqLs])
 
