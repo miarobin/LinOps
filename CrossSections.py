@@ -54,7 +54,7 @@ def G_fermion(s,M):
     if betasq>=0:
         beta = np.sqrt(betasq)
         r=1
-        return betasq*(betasq-2)/2 - (3-betasq**2)+\
+        return beta*(betasq-2)/2 - (3-betasq**2)+\
             r*(beta*(betasq-3)/12 + (1-betasq)**2*np.arctanh(beta)/2)
     else:
         return 0
