@@ -92,7 +92,7 @@ results = []
 for Mn in Mnews:
     consts=1
     sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)*alpha_S.alphasQ2(x*y*LHC)**2/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     
     #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
@@ -117,6 +117,7 @@ for Mn in Mnews:
 results = np.array(results)
 plt.plot(Mnews,results[:,0],color='red')
 plt.plot(Mnews,results[:,1],color='blue')
+plt.plot(Mnews,results[:,2],color='black')
 plt.plot(Mnews,results[:,3],color='grey')
 plt.plot(Mnews,results[:,4],color='orange')
 plt.plot(Mnews,results[:,5],color='green')
