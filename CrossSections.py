@@ -37,7 +37,7 @@ plt.figure()
 def G_scalar(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
-        r=1
+        r=0
         return beta*(2-betasq)/2 - (1-betasq**2)*np.arctanh(beta)/2 +\
             r*(beta*(6-5*betasq)/24 - (1-betasq)**2*np.arctanh(beta)/4)
     else:
@@ -46,7 +46,7 @@ def G_scalar(betasq):
 def G_fermion(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
-        r=1
+        r=0
         return beta*(betasq-2) + (3-betasq**2)*np.arctanh(beta)+\
             r*(5*beta*(betasq-3)/12 + (1-betasq)**2*np.arctanh(beta)/2)
     else:
