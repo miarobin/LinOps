@@ -85,15 +85,15 @@ plt.plot(betas,results[:,0],color='red')
 plt.plot(betas,results[:,1],color='blue')
 
 plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
-'''
+
 print(alpha_S.alphasQ2(100**2))
 print(alpha_S.alphasQ2(500**2))
 
 results = []
 for Mn in Mnews:
     consts=1
-    #sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-    #sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     
     #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
@@ -113,11 +113,11 @@ for Mn in Mnews:
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
                                 (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
 
-    results.append([0,0,sigma_qqYs,sigma_qqYf,sigma_qqLf,sigma_qqLs])
+    results.append([sigma_GGf,sigma_GGs,sigma_qqYs,sigma_qqYf,sigma_qqLf,sigma_qqLs])
 
 results = np.array(results)
-#plt.plot(Mnews,results[:,0],color='red')
-#plt.plot(Mnews,results[:,1],color='blue')
+plt.plot(Mnews,results[:,0],color='red')
+plt.plot(Mnews,results[:,1],color='blue')
 plt.plot(Mnews,results[:,2],color='black')
 plt.plot(Mnews,results[:,3],color='grey')
 plt.plot(Mnews,results[:,4],color='orange')
