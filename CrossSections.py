@@ -91,25 +91,26 @@ print(alpha_S.alphasQ2(500**2))
 
 results = []
 for Mn in Mnews:
+    betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
     consts=1
-    sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(x*y*LHC,Mn)/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     
     #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
-    sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
+    sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
                                 np.sum([(QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC))*(QUARKS[q][0]**2+(1/6)**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
-    sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(x*y*LHC,Mn)/(x*y)**2 *\
+    sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                                 np.sum([(QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC))*(QUARKS[q][0]**2+(1/6)**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
 
-    sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(x*y*LHC,Mn)/(x*y)**2 *\
+    sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
                                 (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
 
 
-    sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(x*y*LHC,Mn)/(x*y)**2 *\
+    sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
                                 (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
 
