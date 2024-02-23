@@ -82,7 +82,7 @@ results = np.array(results)
 betas=np.power(betasq,1/2)
 plt.plot(betas,results[:,0],color='red')
 plt.plot(betas,results[:,1],color='blue')
-
+print(betas)
 plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
 '''
 print(alpha_S.alphasQ2(100**2))
