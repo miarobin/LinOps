@@ -79,13 +79,14 @@ results = []; betasqs = np.linspace(0.1,1)
 for betasq in betasqs:
     results.append([G_fermion(betasq),G_scalar(betasq)])
 results = np.array(results)
-xs=(1-betasqs)/4
+xs=((1-betasqs)/4)**0.5
 
 plt.plot(xs,results[:,0],color='red')
 plt.plot(xs,results[:,1],color='blue')
 
 plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
 
+plt.figure()
 print(alpha_S.alphasQ2(100**2))
 print(alpha_S.alphasQ2(500**2))
 
