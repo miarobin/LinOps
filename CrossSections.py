@@ -75,7 +75,7 @@ def F_fermion(s,M):
 
 
 #COLOUR CROSS-SECTION
-Mnews=np.linspace(100,1000,num=3)
+Mnews=np.linspace(100,2500,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
 
