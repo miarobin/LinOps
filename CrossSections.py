@@ -34,8 +34,7 @@ plt.figure()
 #NEW STUFF
 #Partonic cross sections
 
-def G_scalar(s,M):
-    betasq = 1 - 4*M**2/s
+def G_scalar(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
         r=1
@@ -44,19 +43,17 @@ def G_scalar(s,M):
     else:
         return 0
 
-def G_fermion(s,M):
-    betasq = 1 - 4*M**2/s
+def G_fermion(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
         r=1
-        return beta*(betasq-2) + (3-betasq**2)+\
+        return beta*(betasq-2) + (3-betasq**2)*np.arctanh(beta)+\
             r*(5*beta*(betasq-3)/12 - (1-betasq)**2*np.arctanh(beta)/2)
     else:
         return 0
     
 
-def F_scalar(s,M):
-    betasq = 1 - 4*M**2/s
+def F_scalar(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
 
@@ -64,8 +61,7 @@ def F_scalar(s,M):
     else:
         return 0
     
-def F_fermion(s,M):
-    betasq = 1 - 4*M**2/s
+def F_fermion(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
         return (2/3)*beta*(1-beta**2)
@@ -75,17 +71,16 @@ def F_fermion(s,M):
 
 
 #COLOUR CROSS-SECTION
-Mnews=np.linspace(100,2500,num=3)
+Mnews=np.linspace(100,4000,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
 
-results = []; betas = []
-for Mn in Mnews:
-    results.append([G_scalar(LHC,Mn),G_fermion(LHC,Mn)])
-    betas.append(1 - 4*Mn**2/LHC)
+results = []; betasqs = np.linspace(0,1)
+for betasq in betasqs:
+    results.append([G_scalar(betasq),G_fermion(betasq)])
 results = np.array(results)
-plt.plot(betas,results[:,0],color='red')
-plt.plot(betas,results[:,1],color='blue')
+plt.plot(betasqs,results[:,0],color='red')
+plt.plot(betasqs,results[:,1],color='blue')
 
 plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
 '''
