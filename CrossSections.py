@@ -3,14 +3,8 @@ import numpy as np
 from scipy import integrate
 from matplotlib import pyplot as plt
 
-'''
-TO DO:
-- Constants e.g. M, g, ...
-- Add in other processes (e.g. non-fermions, different production mechanisms, ...).
-'''
 
-
-#Import the PDF set. Decide on the most appropriate one later.
+#Import the PDF sets. Decide on the most appropriate one later.
 p = lhapdf.mkPDF("CT18NNLO", 0)
 p = lhapdf.mkPDF("CT18NNLO/0")
 QUARKS = {'u':[+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
@@ -21,19 +15,14 @@ ANTIQUARKS = {'u':[-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)],
               'd':[+1/3,lambda x,s_max: p.xfxQ2(-1, x, s_max)], 
               's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)],
               'c':[-2/3,lambda x,s_max: p.xfxQ2(-4, x, s_max)]}
-
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
-
+#Strong coupling constant running.
 alpha_S = lhapdf.mkAlphaS("CT18NNLO")
 
 
 plt.figure()
-
-
-
 #NEW STUFF
-#Partonic cross sections
-
+#Partonic cross sections:
 def G_scalar(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
@@ -68,25 +57,12 @@ def F_fermion(betasq):
     else:
         return 0
         
+'''
 
-
-#COLOUR CROSS-SECTION
-Mnews=np.linspace(100,4000,num=3)
+#HADRONIC CROSS-SECTION
+Mnews=np.linspace(500,1000,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
-
-results = []; betasqs = np.linspace(0,1)
-for betasq in betasqs:
-    results.append([G_fermion(betasq),G_scalar(betasq)])
-results = np.array(results)
-xs=((1-betasqs)/4)**0.5
-
-plt.plot(xs,results[:,0]/2,color='red')
-plt.plot(xs,results[:,1],color='blue')
-
-plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
-'''
-plt.figure()
 print(alpha_S.alphasQ2(100**2))
 print(alpha_S.alphasQ2(500**2))
 
@@ -126,8 +102,8 @@ plt.plot(Mnews,results[:,4],color='orange')
 plt.plot(Mnews,results[:,5],color='green')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
-plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-'''
+plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")'''
+
 plt.figure()
 #TESTS
 
@@ -170,3 +146,25 @@ plt.figure()
 xs = np.linspace(-(1+1/2)/2, -(1-1/2)/2)
 plt.plot(xs,dGs_dx(xs,1/2))
 plt.savefig("dGsdxTest.pdf", format="pdf", bbox_inches="tight")
+
+
+#3: Test against Rodrigo's partonic cross sections (gluonic and fermionic)
+
+resultsG = []; resultsF = []; betasqs = np.linspace(0,1)
+for betasq in betasqs:
+    resultsG.append([G_fermion(betasq),G_scalar(betasq)])
+    resultsF.append([F_fermion(betasq),F_scalar(betasq)])
+resultsG = np.array(resultsG); resultsF = np.array(resultsF)
+xs=((1-betasqs)/4)**0.5
+
+plt.figure()
+plt.plot(xs,resultsG[:,0]/2,color='red')
+plt.plot(xs,resultsG[:,1],color='blue')
+
+plt.savefig("partonicG.pdf", format="pdf", bbox_inches="tight")
+
+plt.figure()
+plt.plot(xs,resultsF[:,0]/2,color='red')
+plt.plot(xs,resultsF[:,1],color='blue')
+
+plt.savefig("partonicF.pdf", format="pdf", bbox_inches="tight")
