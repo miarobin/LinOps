@@ -75,7 +75,7 @@ Mnews=np.linspace(100,4000,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
 
-results = []; betasqs = np.linspace(0.1,1)
+results = []; betasqs = np.linspace(0,1)
 for betasq in betasqs:
     results.append([G_fermion(betasq),G_scalar(betasq)])
 results = np.array(results)
@@ -85,7 +85,7 @@ plt.plot(xs,results[:,0],color='red')
 plt.plot(xs,results[:,1],color='blue')
 
 plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
-
+'''
 plt.figure()
 print(alpha_S.alphasQ2(100**2))
 print(alpha_S.alphasQ2(500**2))
@@ -127,7 +127,7 @@ plt.plot(Mnews,results[:,5],color='green')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-
+'''
 plt.figure()
 #TESTS
 
