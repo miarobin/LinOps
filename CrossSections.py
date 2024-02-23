@@ -72,11 +72,23 @@ def F_fermion(s,M):
     else:
         return 0
         
-    
+
+
 #COLOUR CROSS-SECTION
 Mnews=np.linspace(600,800,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
+
+results = []; betas = []
+for Mn in Mnews:
+    results.append([G_scalar(LHC,Mn),G_fermion(LHC,Mn)])
+    betas.append(1 - 4*Mn**2/LHC)
+results = np.array(results)
+plt.plot(betas,results[:,0],color='red')
+plt.plot(betas,results[:,1],color='blue')
+
+plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
+'''
 print(alpha_S.alphasQ2(100**2))
 print(alpha_S.alphasQ2(500**2))
 
@@ -116,7 +128,7 @@ plt.plot(Mnews,results[:,5],color='green')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-
+'''
 plt.figure()
 #TESTS
 
