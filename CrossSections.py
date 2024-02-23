@@ -75,11 +75,11 @@ Mnews=np.linspace(100,4000,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
 
-results = []; betasqs = np.linspace(0,1)
+results = []; betasqs = np.linspace(0.1,1)
 for betasq in betasqs:
     results.append([G_fermion(betasq),G_scalar(betasq)])
 results = np.array(results)
-betas=betasq**0.5
+betas=betasqs**0.5
 print(betas)
 plt.plot(betas,results[:,0],color='red')
 plt.plot(betas,results[:,1],color='blue')
