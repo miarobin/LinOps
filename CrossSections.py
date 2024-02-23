@@ -125,7 +125,7 @@ plt.plot(Mnews,results[:,5],color='green')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
-'''
+
 plt.figure()
 #TESTS
 
