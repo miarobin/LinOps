@@ -46,14 +46,14 @@ def F_scalar(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
 
-        return 2*beta**3/3
+        return beta**3/3
     else:
         return 0
     
 def F_fermion(betasq):
     if betasq>=0:
         beta = np.sqrt(betasq)
-        return (2/3)*beta*(1-beta**2)
+        return (2/3)*beta*(3-betasq)
     else:
         return 0
         
