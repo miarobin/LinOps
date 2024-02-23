@@ -77,7 +77,7 @@ LHC = (13.5e3)**2 #GeV^2
 
 results = []; betasqs = np.linspace(0,1)
 for betasq in betasqs:
-    results.append([G_scalar(betasq),G_fermion(betasq)])
+    results.append([G_fermion(betasq),G_scalar(betasq)])
 results = np.array(results)
 plt.plot(betasqs,results[:,0],color='red')
 plt.plot(betasqs,results[:,1],color='blue')
