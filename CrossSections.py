@@ -165,6 +165,6 @@ plt.savefig("partonicG.pdf", format="pdf", bbox_inches="tight")
 
 plt.figure()
 plt.plot(xs,resultsF[:,0]/2,color='red')
-plt.plot(xs,resultsF[:,1],color='blue')
+plt.plot(xs,resultsF[:,1]/2,color='blue')
 
 plt.savefig("partonicF.pdf", format="pdf", bbox_inches="tight")
