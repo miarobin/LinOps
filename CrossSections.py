@@ -81,7 +81,7 @@ for betasq in betasqs:
 results = np.array(results)
 xs=((1-betasqs)/4)**0.5
 
-plt.plot(xs,results[:,0],color='red')
+plt.plot(xs,results[:,0]/2,color='red')
 plt.plot(xs,results[:,1],color='blue')
 
 plt.savefig("partonic.pdf", format="pdf", bbox_inches="tight")
