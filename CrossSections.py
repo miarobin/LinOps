@@ -28,7 +28,7 @@ def G_scalar(betasq):
         beta = np.sqrt(betasq)
         r=1
         return beta*(2-betasq)/2 - (1-betasq**2)*np.arctanh(beta)/2 +\
-            r*(beta*(6-5*betasq)/24 - (1-betasq)**2*np.arctanh(beta)/4)
+            r*(beta*(3-5*betasq)/24 - (1-betasq)**2*np.arctanh(beta)/4)
     else:
         return 0
 
@@ -57,8 +57,8 @@ def F_fermion(betasq):
     else:
         return 0
         
-'''
 
+'''
 #HADRONIC CROSS-SECTION
 Mnews=np.linspace(500,1000,num=3)
 LHC = (13.5e3)**2 #GeV^2
@@ -69,7 +69,9 @@ print(alpha_S.alphasQ2(500**2))
 results = []
 for Mn in Mnews:
     betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
-    consts=1
+    constsGG=1
+
+
     sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
     sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
@@ -158,7 +160,7 @@ resultsG = np.array(resultsG); resultsF = np.array(resultsF)
 xs=((1-betasqs)/4)**0.5
 
 plt.figure()
-plt.plot(xs,resultsG[:,0]/2,color='red')
+plt.plot(xs,resultsG[:,0],color='red')
 plt.plot(xs,resultsG[:,1],color='blue')
 
 plt.savefig("partonicG.pdf", format="pdf", bbox_inches="tight")
