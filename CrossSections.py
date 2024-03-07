@@ -160,7 +160,7 @@ resultsG = np.array(resultsG); resultsF = np.array(resultsF)
 xs=((1-betasqs)/4)**0.5
 
 plt.figure()
-plt.plot(xs,resultsG[:,0]/2,color='red')
+plt.plot(xs,resultsG[:,0],color='red')
 plt.plot(xs,resultsG[:,1],color='blue')
 
 plt.savefig("partonicG.pdf", format="pdf", bbox_inches="tight")
