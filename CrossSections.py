@@ -7,17 +7,27 @@ from matplotlib import pyplot as plt
 #Import the PDF sets. Decide on the most appropriate one later.
 p = lhapdf.mkPDF("CT18NNLO", 0)
 p = lhapdf.mkPDF("CT18NNLO/0")
-QUARKS = {'u':[+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
-          'd':[-1/3,lambda x,s_max: p.xfxQ2(1, x, s_max)], 
-          's':[-1/3,lambda x,s_max: p.xfxQ2(3, x, s_max)],
-          'c':[+2/3,lambda x,s_max: p.xfxQ2(4, x, s_max)]}
-ANTIQUARKS = {'u':[-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)], 
-              'd':[+1/3,lambda x,s_max: p.xfxQ2(-1, x, s_max)], 
-              's':[+1/3,lambda x,s_max: p.xfxQ2(-3, x, s_max)],
-              'c':[-2/3,lambda x,s_max: p.xfxQ2(-4, x, s_max)]}
+
+#SM Particles [0]: LH Hypercharge, [1]: RH Hypercharge, [2]: Proton PDF
+QUARKS = {'u':[+1/6,+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
+          'd':[+1/6,-1/3,lambda x,s_max: p.xfxQ2(1, x, s_max)]}
+ANTIQUARKS = {'u':[-1/6,-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)], 
+              'd':[-1/6,+1/3,lambda x,s_max: p.xfxQ2(-1, x, s_max)]}
+
+#New Particles [0]: Fundamental Color rep., [1]: Fundamental SU(2) rep., [2]: Hypercharge
+Zs = {'Xi':[0, 0, 1/2],
+      'Lambda': [0, 1, 0],
+      'Omega': [1, 0, 1/6],
+      'Sigma': [0, 0, 1/3],
+      'Delta': [0, 1, 1/6],
+      'Theta': [1, 0, 0]}
+
+#Gluon PDF
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 #Strong coupling constant running.
 alpha_S = lhapdf.mkAlphaS("CT18NNLO")
+alpha_w = 1
+alpha_Y = 1
 
 
 plt.figure()
@@ -58,7 +68,7 @@ def F_fermion(betasq):
         return 0
         
 
-'''
+
 #HADRONIC CROSS-SECTION
 Mnews=np.linspace(500,1000,num=3)
 LHC = (13.5e3)**2 #GeV^2
@@ -69,13 +79,18 @@ print(alpha_S.alphasQ2(500**2))
 results = []
 for Mn in Mnews:
     betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
-    constsGG=1
+    
+    dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
+    dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
+    
+    constsGG = lambda nL, nC: np.pi*alpha_S.alphasQ2(90**2)**2 * dL(nL) * Dc(nC,0)**2 / (LHC*dc(nC,0))
+    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / LHC
+    constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / LHC
 
-
+    #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
     sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
     sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
-    
     #Notice we've calculated Q_Y,q (hypercharges) here & summed over left & right charges.
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
                                 np.sum([(QUARKS[q][1](x,LHC)*ANTIQUARKS[q][1](y,LHC))*(QUARKS[q][0]**2+(1/6)**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
@@ -93,6 +108,11 @@ for Mn in Mnews:
                                 (2*(QUARKS['u'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC)) +\
                                 (QUARKS['u'][1](x,LHC)*ANTIQUARKS['u'][1](y,LHC) + QUARKS['d'][1](x,LHC)*ANTIQUARKS['d'][1](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
 
+
+    XiF = sigma_GGf*constsGG(*Zs['Xi'][0:1]) + sigma_qqYf*constsqqY(*Zs['Xi']) + sigma_qqLf*constsqqL(*Zs['Xi'][0:1])
+    
+
+
     results.append([sigma_GGf,sigma_GGs,sigma_qqYs,sigma_qqYf,sigma_qqLf,sigma_qqLs])
 
 results = np.array(results)
@@ -104,9 +124,10 @@ plt.plot(Mnews,results[:,4],color='orange')
 plt.plot(Mnews,results[:,5],color='green')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
-plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")'''
+plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 
 plt.figure()
+
 #TESTS
 
 #1: pdf test using SM Drell-Yan
