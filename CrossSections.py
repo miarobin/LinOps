@@ -71,10 +71,10 @@ def F_fermion(betasq):
 Mnews=np.linspace(500,1000,num=3)
 LHC = (13.5e3)**2 #GeV^2
 
-print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(100**2)}")
+print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
 print(f"Alpha_s at 500 GeV: {alpha_S.alphasQ2(500**2)}")
 
-results = []; NPs = []; NPf = []
+NPs = []; NPf = []
 for Mn in Mnews:
     betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
     
@@ -111,19 +111,20 @@ for Mn in Mnews:
         sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
         sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
-
         ZF = sigma_GGf*constsGG(*Zs[Z][0:1]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:1])
-        ZS = []
+        ZS = 0
         fresults_.append(ZF)
         sresults_.append(ZS)
+    NPf.append(fresults_)
+    NPs.append(sresults_)
 
-results = np.array(results)
-plt.plot(Mnews,results[:,0],color='red')
-plt.plot(Mnews,results[:,1],color='blue')
-plt.plot(Mnews,results[:,2],color='black')
-plt.plot(Mnews,results[:,3],color='grey')
-plt.plot(Mnews,results[:,4],color='orange')
-plt.plot(Mnews,results[:,5],color='green')
+NPf = np.array(NPf); NPs = np.array(NPs)
+plt.plot(Mnews,NPf[:,0],color='red')
+plt.plot(Mnews,NPf[:,1],color='blue')
+plt.plot(Mnews,NPf[:,2],color='black')
+plt.plot(Mnews,NPf[:,3],color='grey')
+plt.plot(Mnews,NPf[:,4],color='orange')
+plt.plot(Mnews,NPf[:,5],color='green')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
