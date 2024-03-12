@@ -109,11 +109,12 @@ for Mn in Mnews:
     print(Zs['Xi'][0:1])
     fresults_ = []; sresults_ = []
     for Z in Zs.keys():
-        sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-        sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+        #sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+        #sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
         #Implement ZS!
-        ZF = sigma_GGf*constsGG(*Zs[Z][0:1]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:1])
+        #ZF = sigma_GGf*constsGG(*Zs[Z][0:1]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:1])
+        ZF = sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:1])
         ZS = 0
         fresults_.append(ZF)
         sresults_.append(ZS)
