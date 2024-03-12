@@ -31,7 +31,7 @@ alpha_Y = 1
 
 
 plt.figure()
-#NEW STUFF
+#NEW STUFFO
 #Partonic cross sections:
 def G_scalar(betasq,r):
     if betasq>=0:
@@ -68,7 +68,7 @@ def F_fermion(betasq):
 
 
 #HADRONIC CROSS-SECTION
-Mnews=np.linspace(500,1000,num=2)
+Mnews=np.linspace(500,2000,num=5)
 LHC = (13.5e3)**2 #GeV^2
 
 print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
