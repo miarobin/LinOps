@@ -106,7 +106,7 @@ for Mn in Mnews:
     
     #GLUONS These differ depending on the new particle
     r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
-    print(Zs['Xi'][0:1])
+    print(*Zs['Xi'][0:1])
     fresults_ = []; sresults_ = []
     for Z in Zs.keys():
         #sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
