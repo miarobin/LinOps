@@ -14,13 +14,13 @@ QUARKS = {'u':[+1/6,+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)],
 ANTIQUARKS = {'u':[-1/6,-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)], 
               'd':[-1/6,+1/3,lambda x,s_max: p.xfxQ2(-1, x, s_max)]}
 
-#New Particles [0]: Fundamental Color rep., [1]: Fundamental SU(2) rep., [2]: Hypercharge
+#New Particles [0]: Fundamental SU(2) rep., [1]: Fundamental colour rep., [2]: Hypercharge
 Zs = {'Xi':[0, 0, 1/2],
-      'Lambda': [0, 1, 0],
-      'Omega': [1, 0, 1/6],
+      'Lambda': [1, 0, 0],
+      'Omega': [0, 1, 1/6],
       'Sigma': [0, 0, 1/3],
-      'Delta': [0, 1, 1/6],
-      'Theta': [1, 0, 0]}
+      'Delta': [1, 0, 1/6],
+      'Theta': [0, 1, 0]}
 
 #Gluon PDF
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
@@ -68,7 +68,7 @@ def F_fermion(betasq):
 
 
 #HADRONIC CROSS-SECTION
-Mnews=np.linspace(500,1000,num=3)
+Mnews=np.linspace(500,1000,num=2)
 LHC = (13.5e3)**2 #GeV^2
 
 print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
@@ -111,6 +111,7 @@ for Mn in Mnews:
         sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
         sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:1]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
+        #Implement ZS!
         ZF = sigma_GGf*constsGG(*Zs[Z][0:1]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:1])
         ZS = 0
         fresults_.append(ZF)
