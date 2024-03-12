@@ -87,7 +87,7 @@ for Mn in Mnews:
 
     #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
 
-    #QUARKS These are the same for any new particle
+    #QUARKS These are the same for any new particle so just do it once.
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
                             np.sum([(QUARKS[q][2](x,LHC)*ANTIQUARKS[q][2](y,LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
@@ -105,14 +105,15 @@ for Mn in Mnews:
                             (2*(QUARKS['u'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC)) +\
                             (QUARKS['u'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
     
-    #GLUONS These differ depending on the new particle
+    #GLUONS These differ depending on the new particle so have to do multiple times.
     r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
 
     fresults_ = []; sresults_ = []
     for Z in Zs.keys():
-        sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-        sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-
+        if Zs[Z][1]!= 0:
+            sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+            sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+        else: sigma_GGf = 0; sigma_GGs = 0
         #Implement ZS!
         ZF = sigma_GGf*constsGG(*Zs[Z][0:2]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:2])
         ZS = sigma_GGs*constsGG(*Zs[Z][0:2]) + sigma_qqYs*constsqqY(*Zs[Z]) + sigma_qqLs*constsqqL(*Zs[Z][0:2])
