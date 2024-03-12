@@ -91,6 +91,7 @@ for Mn in Mnews:
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
                             np.sum([(QUARKS[q][2](x,LHC)*ANTIQUARKS[q][2](y,LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
+
     sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                             np.sum([(QUARKS[q][2](x,LHC)*ANTIQUARKS[q][2](y,LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
@@ -106,28 +107,27 @@ for Mn in Mnews:
     
     #GLUONS These differ depending on the new particle
     r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
-    print(*Zs['Xi'][0:2])
+
     fresults_ = []; sresults_ = []
     for Z in Zs.keys():
-        #sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-        #sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+        sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+        sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs[Z][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
         #Implement ZS!
-        #ZF = sigma_GGf*constsGG(*Zs[Z][0:2]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:2])
-        ZF = sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:2])
-        ZS = 0
+        ZF = sigma_GGf*constsGG(*Zs[Z][0:2]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:2])
+        ZS = sigma_GGs*constsGG(*Zs[Z][0:2]) + sigma_qqYs*constsqqY(*Zs[Z]) + sigma_qqLs*constsqqL(*Zs[Z][0:2])
         fresults_.append(ZF)
         sresults_.append(ZS)
     NPf.append(fresults_)
     NPs.append(sresults_)
 
 NPf = np.array(NPf); NPs = np.array(NPs)
-plt.plot(Mnews,NPf[:,0],color='red')
-plt.plot(Mnews,NPf[:,1],color='blue')
-plt.plot(Mnews,NPf[:,2],color='black')
-plt.plot(Mnews,NPf[:,3],color='grey')
-plt.plot(Mnews,NPf[:,4],color='orange')
-plt.plot(Mnews,NPf[:,5],color='green')
+plt.plot(Mnews,NPf[:,0],color='red'); plt.plot(Mnews,NPs[:,0],color='red',linestyle='dashed')
+plt.plot(Mnews,NPf[:,1],color='blue'); plt.plot(Mnews,NPs[:,1],color='blue',linestyle='dashed')
+plt.plot(Mnews,NPf[:,2],color='black'); plt.plot(Mnews,NPs[:,2],color='black',linestyle='dashed')
+plt.plot(Mnews,NPf[:,3],color='grey'); plt.plot(Mnews,NPs[:,3],color='grey',linestyle='dashed')
+plt.plot(Mnews,NPf[:,4],color='orange'); plt.plot(Mnews,NPs[:,4],color='orange',linestyle='dashed')
+plt.plot(Mnews,NPf[:,5],color='green'); plt.plot(Mnews,NPs[:,5],color='green',linestyle='dashed')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
@@ -181,7 +181,7 @@ plt.savefig("dGsdxTest.pdf", format="pdf", bbox_inches="tight")
 
 resultsG = []; resultsF = []; betasqs = np.linspace(0,1)
 for betasq in betasqs:
-    resultsG.append([G_fermion(betasq),G_scalar(betasq)])
+    resultsG.append([G_fermion(betasq,1),G_scalar(betasq,1)])
     resultsF.append([F_fermion(betasq),F_scalar(betasq)])
 resultsG = np.array(resultsG); resultsF = np.array(resultsF)
 xs=((1-betasqs)/4)**0.5
