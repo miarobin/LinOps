@@ -237,9 +237,9 @@ for Mn in MLQs:
 results = np.array(results)
 plt.figure()
 
-plt.plot(MLQs,results[:,0],color='red')
-plt.plot(MLQs,results[:,1],color='blue')
-plt.plot(MLQs,results[:,2],color='black')
+plt.plot(MLQs,results[:,0]/(2.56819e-9),color='red')
+plt.plot(MLQs,results[:,1]/(2.56819e-9),color='blue')
+plt.plot(MLQs,results[:,2]/(2.56819e-9),color='black')
 plt.yscale('log')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
