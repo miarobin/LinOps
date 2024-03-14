@@ -240,7 +240,7 @@ plt.figure()
 plt.plot(MLQs,results[:,0],color='red')
 plt.plot(MLQs,results[:,1],color='blue')
 plt.plot(MLQs,results[:,2],color='black')
-
+plt.yscale('log')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("LeptoquarkTest.pdf", format="pdf", bbox_inches="tight")
