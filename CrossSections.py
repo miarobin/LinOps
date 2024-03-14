@@ -68,7 +68,7 @@ def F_fermion(betasq):
 
 
 #HADRONIC CROSS-SECTION
-Mnews=np.linspace(500,2000,num=5)
+Mnews=np.linspace(400,1300,num=5)
 LHC = (13.5e3)**2 #GeV^2
 
 print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
@@ -129,6 +129,8 @@ plt.plot(Mnews,NPf[:,2],color='black'); plt.plot(Mnews,NPs[:,2],color='black',li
 plt.plot(Mnews,NPf[:,3],color='grey'); plt.plot(Mnews,NPs[:,3],color='grey',linestyle='dashed')
 plt.plot(Mnews,NPf[:,4],color='orange'); plt.plot(Mnews,NPs[:,4],color='orange',linestyle='dashed')
 plt.plot(Mnews,NPf[:,5],color='green'); plt.plot(Mnews,NPs[:,5],color='green',linestyle='dashed')
+plt.xscale('log')
+plt.yscale('log')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
