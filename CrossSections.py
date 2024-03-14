@@ -73,7 +73,7 @@ LHC = (13.5e3)**2 #GeV^2
 
 print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
 print(f"Alpha_s at 500 GeV: {alpha_S.alphasQ2(500**2)}")
-
+'''
 NPs = []; NPf = []
 for Mn in Mnews:
     betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
@@ -136,7 +136,7 @@ plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 
 plt.figure()
-
+'''
 #TESTS
 
 #1: pdf test using SM Drell-Yan
@@ -200,3 +200,50 @@ plt.plot(xs,resultsF[:,0]/2,color='red')
 plt.plot(xs,resultsF[:,1]/2,color='blue')
 
 plt.savefig("partonicF.pdf", format="pdf", bbox_inches="tight")
+
+
+#4: Testing against Leptoquarks at the Tevatron
+MLQs=np.linspace(100,230,num=5)
+LHC = (13.5e3)**2 #GeV^2
+
+results = []
+for Mn in MLQs:
+    betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
+    
+    dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
+    dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
+    
+    constsGG = lambda nL, nC: np.pi*alpha_S.alphasQ2(90**2)**2 * dL(nL) * Dc(nC,0)**2 / (LHC*dc(nC,0))
+    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / LHC
+    constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / LHC
+
+    #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
+
+    #QUARKS.
+    sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
+                            np.sum([(QUARKS[q][2](x,LHC)*QUARKS[q][2](y,LHC) + ANTIQUARKS[q][2](x,LHC)*ANTIQUARKS[q][2](y,LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+
+
+    #GLUONS.
+    r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(*Zs['Delta'][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+
+    #Multiply by constants & add to result array.
+    LQGG = sigma_GGs*constsGG(*Zs['Delta'][0:2]) 
+    LQQQ = sigma_qqYs*constsqqY(*Zs['Delta'])
+    
+    results.append([LQGG + LQQQ, LQGG, LQQQ])
+
+results = np.array(results)
+plt.figure()
+
+plt.plot(MLQs,results[:,0],color='red')
+plt.plot(MLQs,results[:,1],color='blue')
+plt.plot(MLQs,results[:,2],color='black')
+
+plt.xlabel("Mass of New Particle")
+plt.ylabel("Cross Section")
+plt.savefig("LeptoquarkTest.pdf", format="pdf", bbox_inches="tight")
+
+plt.figure()
+
