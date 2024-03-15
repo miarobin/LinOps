@@ -5,8 +5,8 @@ from matplotlib import pyplot as plt
 
 
 #Import the PDF sets. Decide on the most appropriate one later.
-p = lhapdf.mkPDF("CT18NNLO", 0)
-p = lhapdf.mkPDF("CT18NNLO/0")
+p = lhapdf.mkPDF("PDF4LHC21_mc", 0)
+p = lhapdf.mkPDF("PDF4LHC21_mc/0")
 
 #SM Particles [0]: LH Hypercharge, [1]: RH Hypercharge, [2]: Proton PDF
 QUARKS = {'u':[+1/6,+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
@@ -241,7 +241,7 @@ plt.figure()
 plt.plot(MLQs,results[:,0]/(2.56819e-9),color='red')
 plt.plot(MLQs,results[:,1]/(2.56819e-9),color='blue')
 plt.plot(MLQs,results[:,2]/(2.56819e-9),color='black')
-#plt.yscale('log')
+plt.yscale('log')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
 plt.savefig("LeptoquarkTest.pdf", format="pdf", bbox_inches="tight")
