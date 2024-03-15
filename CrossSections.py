@@ -222,12 +222,12 @@ for Mn in MLQs:
 
     #QUARKS.
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,TEV)*QUARKS[q][2](y,TEV) + ANTIQUARKS[q][2](x,TEV)*ANTIQUARKS[q][2](y,TEV))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+                            np.sum([(QUARKS[q][2](x,x*y*TEV)*QUARKS[q][2](y,x*y*TEV) + ANTIQUARKS[q][2](x,x*y*TEV)*ANTIQUARKS[q][2](y,x*y*TEV))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
 
 
     #GLUONS.
     r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
-    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,TEV)*f_G(y,TEV)*G_scalar(betasq(x,y),r(*Zs['Delta'][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,x*y*TEV)*f_G(y,x*y*TEV)*G_scalar(betasq(x,y),r(*Zs['Delta'][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     #Multiply by constants & add to result array.
     LQGG = sigma_GGs*constsGG(*Zs['Delta'][0:2]) 
