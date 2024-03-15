@@ -107,7 +107,7 @@ for Mn in Mnews:
                             (QUARKS['u'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
     
     #GLUONS These differ depending on the new particle so have to do multiple times.
-    r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
+    r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
 
     fresults_ = []; sresults_ = []
     for Z in Zs.keys():
@@ -226,7 +226,7 @@ for Mn in MLQs:
 
 
     #GLUONS.
-    r = lambda n, m: 3 * dc(n,m) / Dc(n,m) * (3**2-1)
+    r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
     print(r(*Zs['Delta'][0:2]))
     sigma_GGs = integrate.nquad(lambda x,y: f_G(x,x*y*TEV)*f_G(y,x*y*TEV)*G_scalar(betasq(x,y),r(*Zs['Delta'][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
