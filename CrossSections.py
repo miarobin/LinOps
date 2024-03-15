@@ -5,8 +5,8 @@ from matplotlib import pyplot as plt
 
 
 #Import the PDF sets. Decide on the most appropriate one later.
-p = lhapdf.mkPDF("PDF4LHC21", 0)
-p = lhapdf.mkPDF("PDF4LHC21/0")
+p = lhapdf.mkPDF("93000", 0)
+p = lhapdf.mkPDF("93000/0")
 
 #SM Particles [0]: LH Hypercharge, [1]: RH Hypercharge, [2]: Proton PDF
 QUARKS = {'u':[+1/6,+2/3,lambda x,s_max: p.xfxQ2(2, x, s_max)], 
