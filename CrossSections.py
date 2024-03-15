@@ -204,7 +204,7 @@ plt.savefig("partonicF.pdf", format="pdf", bbox_inches="tight")
 
 
 #4: Testing against Leptoquarks at the Tevatron
-MLQs=np.linspace(100,230,num=5)
+MLQs=np.linspace(100,230,num=3)
 TEV = (1.8e3)**2 #GeV^2
 
 results = []
@@ -227,12 +227,11 @@ for Mn in MLQs:
 
     #GLUONS.
     r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
-    print(r(*Zs['Delta'][0:2]))
-    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,x*y*TEV)*f_G(y,x*y*TEV)*G_scalar(betasq(x,y),r(*Zs['Delta'][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGs = integrate.nquad(lambda x,y: f_G(x,x*y*TEV)*f_G(y,x*y*TEV)*G_scalar(betasq(x,y),r(*Zs['Theta'][0:2]))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     #Multiply by constants & add to result array.
-    LQGG = sigma_GGs*constsGG(*Zs['Delta'][0:2]) 
-    LQQQ = sigma_qqYs*constsqqY(*Zs['Delta'])
+    LQGG = sigma_GGs*constsGG(*Zs['Theta'][0:2]) 
+    LQQQ = sigma_qqYs*constsqqY(*Zs['Theta'])
     
     results.append([LQGG + LQQQ, LQGG, LQQQ])
 
