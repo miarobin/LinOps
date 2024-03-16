@@ -82,7 +82,7 @@ for Mn in Mnews:
     dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
     
-    constsGG = lambda nL, nC: np.pi*alpha_S.alphasQ2(90**2)**2 * dL(nL) * Dc(nC,0)**2 / (LHC*dc(nC,0))
+    constsGG = lambda nL, nC: np.pi*alpha_S.alphasQ2(90**2)**2 * dL(nL) * 4 * Dc(nC,0)**2 / (LHC*dc(nC,0))
     constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / LHC
     constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / LHC
 
@@ -213,7 +213,7 @@ for Mn in MLQs:
     dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
     
-    constsGG = lambda nL, nC: np.pi * dL(nL) * Dc(nC,0)**2 / (TEV*dc(nC,0))
+    constsGG = lambda nL, nC: np.pi * dL(nL) * 4 * Dc(nC,0)**2 / (TEV*dc(nC,0))
     constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / TEV
     constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / TEV
 
@@ -226,7 +226,7 @@ for Mn in MLQs:
 
     #GLUONS.
     r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
-    sigma_GGs = 2*integrate.nquad(lambda x,y: alpha_S.alphasQ2(90**2)**2*f_G(x,(x*y*TEV))*f_G(y,(x*y*TEV))*G_scalar(betasq(x,y),r(Zs['Theta'][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+    sigma_GGs = integrate.nquad(lambda x,y: alpha_S.alphasQ2(90**2)**2*f_G(x,(x*y*TEV))*f_G(y,(x*y*TEV))*G_scalar(betasq(x,y),r(Zs['Theta'][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
 
     print(r(Zs['Theta'][1],0))
     #Multiply by constants & add to result array.
