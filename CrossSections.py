@@ -82,7 +82,7 @@ for Mn in Mnews:
     dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
     
-    constsGG = lambda nL, nC: np.pi*alpha_S.alphasQ2(90**2)**2 * dL(nL) * 4 * Dc(nC,0)**2 / (LHC*dc(nC,0))
+    constsGG = lambda nL, nC: np.pi*alpha_S.alphasQ2(91**2)**2 * dL(nL) * 4 * Dc(nC,0)**2 / (LHC*dc(nC,0))
     constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / LHC
     constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / LHC
 
@@ -90,21 +90,21 @@ for Mn in Mnews:
 
     #QUARKS These are the same for any new particle so just do it once.
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,LHC)*ANTIQUARKS[q][2](y,LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
 
     sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,LHC)*ANTIQUARKS[q][2](y,LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
 
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
-                            (2*(QUARKS['u'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC)) +\
-                            (QUARKS['u'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
+                            (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
+                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/4
 
 
     sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
-                            (2*(QUARKS['u'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC)) +\
-                            (QUARKS['u'][2](x,LHC)*ANTIQUARKS['u'][2](y,LHC) + QUARKS['d'][2](x,LHC)*ANTIQUARKS['d'][2](y,LHC))),[[0.001,1],[0.001,1]])[0]/4
+                            (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
+                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/4
     
     #GLUONS These differ depending on the new particle so have to do multiple times.
     r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
@@ -112,8 +112,8 @@ for Mn in Mnews:
     fresults_ = []; sresults_ = []
     for Z in Zs.keys():
         if Zs[Z][1]!= 0:
-            sigma_GGf = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_fermion(betasq(x,y),r(Zs[Z][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
-            sigma_GGs = integrate.nquad(lambda x,y: f_G(x,LHC)*f_G(y,LHC)*G_scalar(betasq(x,y),r(Zs[Z][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+            sigma_GGf = integrate.nquad(lambda x,y: f_G(x,x*y*LHC)*f_G(y,x*y*LHC)*G_fermion(betasq(x,y),r(Zs[Z][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
+            sigma_GGs = integrate.nquad(lambda x,y: f_G(x,x*y*LHC)*f_G(y,x*y*LHC)*G_scalar(betasq(x,y),r(Zs[Z][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
         else: sigma_GGf = 0; sigma_GGs = 0
         ZF = sigma_GGf*constsGG(*Zs[Z][0:2]) + sigma_qqYf*constsqqY(*Zs[Z]) + sigma_qqLf*constsqqL(*Zs[Z][0:2])
         ZS = sigma_GGs*constsGG(*Zs[Z][0:2]) + sigma_qqYs*constsqqY(*Zs[Z]) + sigma_qqLs*constsqqL(*Zs[Z][0:2])
@@ -218,12 +218,6 @@ for Mn in MLQs:
     constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / TEV
 
     #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
-
-    #QUARKS.
-    sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,x*y*TEV)*QUARKS[q][2](y,(x*y*TEV)) + ANTIQUARKS[q][2](x,(x*y*TEV))*ANTIQUARKS[q][2](y,(x*y*TEV)))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
-
-
     #GLUONS.
     r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
     sigma_GGs = integrate.nquad(lambda x,y: alpha_S.alphasQ2(91**2)**2*f_G(x,(x*y*TEV))*f_G(y,(x*y*TEV))*G_scalar(betasq(x,y),r(Zs['Theta'][1],0))/(x*y)**2,[[0.001,1],[0.001,1]])[0]
@@ -231,16 +225,13 @@ for Mn in MLQs:
     print(r(Zs['Theta'][1],0))
     #Multiply by constants & add to result array.
     LQGG = sigma_GGs*constsGG(*Zs['Theta'][0:2]) 
-    LQQQ = sigma_qqYs*constsqqY(*Zs['Theta'])
     
-    results.append([LQGG + LQQQ, LQGG, LQQQ])
+    results.append(LQGG)
 
 results = np.array(results)
 plt.figure()
 
-plt.plot(MLQs,results[:,0]/(2.56819e-9),color='red')
-plt.plot(MLQs,results[:,1]/(2.56819e-9),color='blue')
-plt.plot(MLQs,results[:,2]/(2.56819e-9),color='black')
+plt.plot(MLQs,results/(2.56819e-9),color='red')
 plt.yscale('log')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
