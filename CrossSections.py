@@ -69,12 +69,12 @@ def F_fermion(betasq):
 
 
 #HADRONIC CROSS-SECTION
-Mnews=np.linspace(400,1300,num=5)
+Mnews=np.linspace(400,1400,num=10)
 LHC = (13.5e3)**2 #GeV^2
 
 print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
 print(f"Alpha_s at 500 GeV: {alpha_S.alphasQ2(500**2)}")
-'''
+
 NPs = []; NPf = []
 for Mn in Mnews:
     betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
@@ -136,7 +136,7 @@ plt.ylabel("Cross Section")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 
 plt.figure()
-'''
+
 #TESTS
 
 #1: pdf test using SM Drell-Yan
@@ -203,8 +203,9 @@ plt.savefig("partonicF.pdf", format="pdf", bbox_inches="tight")
 
 
 #4: Testing against Leptoquarks at the Tevatron
+'''
 MLQs=np.linspace(100,1400,num=5)
-TEV = (14e3)**2 #GeV^2
+TEV = (1.8e3)**2 #GeV^2
 
 results = []
 for Mn in MLQs:
@@ -238,4 +239,4 @@ plt.ylabel("Cross Section")
 plt.savefig("LeptoquarkTest.pdf", format="pdf", bbox_inches="tight")
 
 plt.figure()
-
+'''
