@@ -1,4 +1,4 @@
-Useful Commands: \n\n
+Useful Commands:
 
 - To load LHAPDF on the workstations
   
