@@ -203,7 +203,7 @@ plt.savefig("partonicF.pdf", format="pdf", bbox_inches="tight")
 
 
 #4: Testing against Leptoquarks at the Tevatron
-MLQs=np.linspace(100,230,num=5)
+MLQs=np.linspace(100,1400,num=5)
 TEV = (14e3)**2 #GeV^2
 
 results = []
