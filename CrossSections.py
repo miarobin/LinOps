@@ -257,8 +257,8 @@ for Mn in MLQs:
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
     
     constsGG = lambda nL, nC: np.pi * dL(nL) * 4 * Dc(nC,0)**2 / (LHC*dc(nC,0))
-    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / LHC
-    constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / LHC
+    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / (2*LHC)
+    constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / (2*LHC)
 
     #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
 
@@ -273,12 +273,12 @@ for Mn in MLQs:
     
     QQLL = constsqqL(1,0)*sigma_qqLf + constsqqY(1,0,-1/2)*sigma_qqLf
     
-    results.append(3*QQLL)
+    results.append(QQLL)
 
 results = np.array(results)
 plt.figure()
 
-plt.plot(MLQs,results/(2.56819e-9),color='red')
+plt.plot(MLQs,results/(2.56819e-12),color='red')
 plt.yscale('log')
 plt.xlabel("Mass of New Particle")
 plt.ylabel("Cross Section")
