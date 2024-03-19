@@ -247,7 +247,7 @@ plt.figure()
 
 #Testing against heavy leptons at LHC
 MLQs=np.linspace(500,2000,num=5)
-TEV = (14e3)**2 #GeV^2
+LHC = (14e3)**2 #GeV^2
 
 results = []
 for Mn in MLQs:
@@ -256,9 +256,9 @@ for Mn in MLQs:
     dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
     
-    constsGG = lambda nL, nC: np.pi * dL(nL) * 4 * Dc(nC,0)**2 / (TEV*dc(nC,0))
-    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / TEV
-    constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / TEV
+    constsGG = lambda nL, nC: np.pi * dL(nL) * 4 * Dc(nC,0)**2 / (LHC*dc(nC,0))
+    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * dL(nL) / LHC
+    constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / LHC
 
     #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
 
