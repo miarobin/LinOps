@@ -251,7 +251,7 @@ LHC = (14e3)**2 #GeV^2
 
 results = []
 for Mn in MLQs:
-    betasq = lambda x,y: 1 - 4*Mn**2/(TEV*x*y)
+    betasq = lambda x,y: 1 - 4*Mn**2/(LHC*x*y)
     
     dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
