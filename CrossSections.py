@@ -256,13 +256,13 @@ for Mn in MLQs:
     dL = lambda n: n+1 ; DL = lambda n: n*(n+1)*(n+2)/(3*2*2)
     dc = lambda n,m: (m+1)*(n+1)*(n+m+2)/2 ; Dc = lambda n,m :(m**3 + n**3 + 3*(n+m) + m*n) * dc(n,m)/ (4*3*2)
     
-    constsqqL = lambda nL, nC: np.pi*alpha_w**2 * dc(nC,0) * DL(nL) / (2*LHC)
+    constsqqL = lambda nL, nC: np.pi * alpha_w**2 * dc(nC,0) * DL(nL) / (2*LHC)
     constsqqY = lambda nL, nC, QY: np.pi * alpha_Y**2 * QY**2 * dc(nC,0) * dL(nL) / (2*LHC)
 
     #NOTE the PDFs from LHAPDF are of the form f_LHAPDF = xf_DRAFT(x).
 
     sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2/2+QUARKS[q][1]**2/2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                             (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
