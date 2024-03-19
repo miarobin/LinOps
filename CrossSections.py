@@ -31,8 +31,8 @@ f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
 #Strong coupling constant running.
 alpha_S = lhapdf.mkAlphaS("PDF4LHC15_nlo_100")
 mW = 80; mZ = 91; v = 246
-alpha_w = ((2*mZ/v)**2 - (2*mW/v)**2)/(4*np.pi)
-alpha_Y = (2*mW/v)**2/(4*np.pi)
+alpha_Y = ((2*mZ/v)**2 - (2*mW/v)**2)/(4*np.pi)
+alpha_w = (2*mW/v)**2/(4*np.pi)
 
 
 plt.figure()
