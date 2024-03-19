@@ -94,11 +94,11 @@ for Mn in Mnews:
 
     #QUARKS These are the same for any new particle so just do it once.
     sigma_qqYs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2/2+QUARKS[q][1]**2/2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
 
     sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
-                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2+QUARKS[q][1]**2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
+                            np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2/2+QUARKS[q][1]**2/2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
 
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
@@ -266,7 +266,7 @@ for Mn in MLQs:
     
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                             (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
-                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/4
+                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/16
 
     #Multiply by constants & add to result array.
     
