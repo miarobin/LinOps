@@ -70,7 +70,7 @@ def F_fermion(betasq):
     else:
         return 0
         
-
+'''
 
 #HADRONIC CROSS-SECTION
 Mnews=np.linspace(400,1400,num=3)
@@ -140,7 +140,7 @@ plt.ylabel("Cross Section (pb)")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 
 plt.figure()
-
+'''
 #TESTS
 
 #1: pdf test using SM Drell-Yan
