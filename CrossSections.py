@@ -270,7 +270,7 @@ for Mn in MLQs:
 
     #Multiply by constants & add to result array.
     
-    QQLL = constsqqL(1,0)*sigma_qqLf + constsqqY(1,0,-1/2)*sigma_qqYf/3
+    QQLL = constsqqL(1,0)*sigma_qqLf/3 + constsqqY(1,0,-1/2)*sigma_qqYf/3
     
     results.append(QQLL)
 
