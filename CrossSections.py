@@ -103,12 +103,12 @@ for Mn in Mnews:
 
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                             (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
-                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/4
+                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/16
 
 
     sigma_qqLs = integrate.nquad(lambda x,y: F_scalar(betasq(x,y))/(x*y)**2 *\
                             (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
-                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/4
+                            (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/16
     
     #GLUONS These differ depending on the new particle so have to do multiple times.
     r = lambda n, m: 3 * dc(n,m) / (Dc(n,m) * (3**2-1))
@@ -270,7 +270,7 @@ for Mn in MLQs:
 
     #Multiply by constants & add to result array.
     
-    QQLL = constsqqL(1,0)*sigma_qqLf + constsqqY(1,0,-1/2)*sigma_qqLf
+    QQLL = constsqqL(1,0)*sigma_qqLf + constsqqY(1,0,-1/2)*sigma_qqYf/3
     
     results.append(QQLL)
 
