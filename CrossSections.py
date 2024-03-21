@@ -1,12 +1,28 @@
 import lhapdf
 import numpy as np
 from scipy import integrate
+import csv
 from matplotlib import pyplot as plt
 
 plt.rcParams["font.family"] = "serif"
 plt.rcParams["mathtext.fontset"] = "cm"
 plt.rcParams["font.size"]= 12
 
+
+def save_arrays_to_csv(file_path, column_titles, *arrays):
+    # Transpose the arrays to align them by columns
+    transposed_arrays = np.array(list(zip(*arrays)))
+    
+
+    with open(file_path, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        
+        #Writes the column titles.
+        writer.writerow(column_titles)
+        
+        #Writes in data rows.
+        for row in transposed_arrays:
+            writer.writerow(row)
 
 #Import the PDF sets. Decide on the most appropriate one later.
 p = lhapdf.mkPDF("PDF4LHC15_nlo_100", 0)
@@ -25,6 +41,7 @@ Zs = {'Xi':[0, 0, 1/2],
       'Sigma': [0, 0, 1/3],
       'Delta': [1, 0, 1/6],
       'Theta': [0, 1, 0]}
+
 
 #Gluon PDF
 f_G = lambda x, s_max: p.xfxQ2(21, x, s_max)
@@ -70,7 +87,7 @@ def F_fermion(betasq):
     else:
         return 0
         
-'''
+
 
 #HADRONIC CROSS-SECTION
 Mnews=np.linspace(400,1400,num=3)
@@ -100,7 +117,7 @@ for Mn in Mnews:
     sigma_qqYf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                             np.sum([(QUARKS[q][2](x,x*y*LHC)*ANTIQUARKS[q][2](y,x*y*LHC))*(QUARKS[q][0]**2/2+QUARKS[q][1]**2/2) for q in ['u','d']]),[[0.001,1],[0.001,1]])[0]
     
-
+    #Note for dividing by 16, 2x2 is from Pauli matrices/2 and 2x2 from only taking LH quarks.
     sigma_qqLf = integrate.nquad(lambda x,y: F_fermion(betasq(x,y))/(x*y)**2 *\
                             (2*(QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC)) +\
                             (QUARKS['u'][2](x,x*y*LHC)*ANTIQUARKS['u'][2](y,x*y*LHC) + QUARKS['d'][2](x,x*y*LHC)*ANTIQUARKS['d'][2](y,x*y*LHC))),[[0.001,1],[0.001,1]])[0]/16
@@ -139,8 +156,16 @@ plt.xlabel("Mass of New Particle (GeV)")
 plt.ylabel("Cross Section (pb)")
 plt.savefig("testing.pdf", format="pdf", bbox_inches="tight")
 
+#FILE WRITER
+#Column Titles
+column_titles = ['Xi', 'Lambda', 'Omega', 'Simga', 'Delta', 'Theta']
+# File path to save the CSV
+file_path_f = f'HadronicCrossSecFermions.csv'
+file_path_s = f'HadronicCrossSecScalar.csv'
+save_arrays_to_csv(file_path_f, column_titles, NPf[:,0],NPf[:,1],NPf[:,2],NPf[:,3],NPf[:,4],NPf[:,5])
+save_arrays_to_csv(file_path_s, column_titles, NPs[:,0],NPs[:,1],NPs[:,2],NPs[:,3],NPs[:,4],NPs[:,5])
 plt.figure()
-'''
+
 #TESTS
 
 #1: pdf test using SM Drell-Yan
