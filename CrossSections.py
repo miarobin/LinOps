@@ -90,7 +90,7 @@ def F_fermion(betasq):
 
 
 #HADRONIC CROSS-SECTION
-Mnews=np.linspace(500,1500,num=10)
+Mnews=np.linspace(500,2500,num=10)
 LHC = (13.5e3)**2 #GeV^2
 
 print(f"Alpha_s at Z pole: {alpha_S.alphasQ2(90**2)}")
