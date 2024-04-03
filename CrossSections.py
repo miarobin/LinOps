@@ -37,10 +37,11 @@ ANTIQUARKS = {'u':[-1/6,-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)],
 #New Particles [0]: Fundamental SU(2) rep., [1]: Fundamental colour rep., [2]: Hypercharge
 Zs = {'Xi':[0, 0, 1/2],
       'Lambda': [1, 0, 0],
-      'Omega': [0, 1, 1/6],
+#      'Omega': [0, 1, 1/6],
       'Sigma': [0, 0, 1/3],
-      'Delta': [1, 0, 1/6],
-      'Theta': [0, 1, 0]}
+#      'Delta': [1, 0, 1/6],
+      'Theta': [0, 1, 0],
+      "Phi" : [0, 0, 1/6]}
 
 
 #Gluon PDF
@@ -149,7 +150,7 @@ plt.plot(Mnews,NPf[:,1],color='blue'); plt.plot(Mnews,NPs[:,1],color='blue',line
 plt.plot(Mnews,NPf[:,2],color='black'); plt.plot(Mnews,NPs[:,2],color='black',linestyle='dashed')
 plt.plot(Mnews,NPf[:,3],color='grey'); plt.plot(Mnews,NPs[:,3],color='grey',linestyle='dashed')
 plt.plot(Mnews,NPf[:,4],color='orange'); plt.plot(Mnews,NPs[:,4],color='orange',linestyle='dashed')
-plt.plot(Mnews,NPf[:,5],color='green'); plt.plot(Mnews,NPs[:,5],color='green',linestyle='dashed')
+#plt.plot(Mnews,NPf[:,5],color='green'); plt.plot(Mnews,NPs[:,5],color='green',linestyle='dashed')
 plt.xscale('log')
 plt.yscale('log')
 plt.xlabel("Mass of New Particle (GeV)")
