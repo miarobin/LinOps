@@ -37,9 +37,9 @@ ANTIQUARKS = {'u':[-1/6,-2/3,lambda x,s_max: p.xfxQ2(-2, x, s_max)],
 #New Particles [0]: Fundamental SU(2) rep., [1]: Fundamental colour rep., [2]: Hypercharge
 Zs = {'Xi':[0, 0, 1/2],
       'Lambda': [1, 0, 0],
-#      'Omega': [0, 1, 1/6],
+      'Omega': [0, 1, 1/6],
       'Sigma': [0, 0, 1/3],
-#      'Delta': [1, 0, 1/6],
+      'Delta': [1, 0, 1/6],
       'Theta': [0, 1, 0],
       "Phi" : [0, 0, 1/6]}
 
